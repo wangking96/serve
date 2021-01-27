@@ -1,0 +1,41 @@
+div {
+    box-sizing: border-box;
+}
+html,body {
+    font-size: 14px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    background-color: $white;
+    font-family: "Helvetica Neue", "Helvetica", "Roboto", "Droid Sans", "STHeiTi", "sans-serif", "Segoe";
+    padding-bottom: env(safe-area-inset-bottom, 34px);
+}
+
+.clearfix:after {content: "."; display: block; height:0; clear:both; visibility: hidden;}
+.clearfix { *zoom:1; }
+
+.text-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+
+@keyframes scaleIcon {
+    20%{
+        transform: scale(.8);
+    }
+    50%{
+        transform: scale(1);
+    }
+    80%{
+        transform: scale(1.2);
+    }
+    100%{
+        transform: scale(1);
+    }
+}

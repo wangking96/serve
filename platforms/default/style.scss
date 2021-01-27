@@ -1,0 +1,64 @@
+/** 文字大小 **/
+$font-large: 18px;
+$font-medium: 16px;
+$font-small: 15px;
+$font-regular: 14px;
+$font-mini: 12px;
+
+/** 背景颜色 **/
+$bg-light: #f7f8fa;
+$bg-regular: #f2f3f5;
+$bg-light-red: #FFD2D4;
+
+/** 边框颜色 **/
+$border-light: #ebedf0;
+$border-regular: #dcdee0;
+$border-maroon: #8D0E0E;
+
+/** 文字颜色 **/
+$font-light: #c8c9cc;
+$font-lighter: #969799;
+$font-main: #646566;
+$font-important: #323233;
+$font-maroon: #8D0E0E;
+
+/** 黑白颜色 **/
+$black: #000000;
+$white: #ffffff;
+
+/** 链接颜色 **/
+$link: #576b95;
+/** 成功颜色 **/
+$success: #07c160;
+/** 错误颜色 **/
+$err: #ee0a24;
+/** 警告颜色 **/
+$success: #faab0c;
+
+
+/** 平台主题颜色 **/
+$theme-color: #E9242B;
+
+
+/** 阴影 **/
+$box-shadow-block: 0 1px 6px rgba(0,0,0,.12);
+$box-shadow-popup: 0 2px 10px rgba(0, 0, 0, .3);
+$box-shadow-maroon: 0 2px 6px 0 rgba(211,0,0,0.6);
+
+/** header **/
+$bg-header: linear-gradient(to right, #ff9100, #f60200);
+$height-header: 46px;
+
+/** 黄色渐变到红色 **/
+$bg-image-yellow-red: linear-gradient(to right, #ff9100, #f60200);
+
+/** 投注选球背景渐变 **/
+$betrow-ball-bg-image-regular: linear-gradient(180deg, #FFFFFF 50%, #DADADA 100%);
+$betrow-ball-bg-image-yellow-red: radial-gradient(at 30% 30%, #ffb01d, #F60000, #FF9400);
+
+
+
+:export {
+    themeColor: $theme-color;
+    heightHeader: $height-header;
+}
