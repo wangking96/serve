@@ -1,0 +1,185 @@
+@import './pcbase.scss';
+
+/*
+ *  Header组件样式
+ */
+.header {
+    height: 70px; /*no*/
+    box-sizing: border-box;
+    color: $font_orange_color;
+    background-color: $headBg;
+    &-main {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    &-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        a {
+            font-size: 15px; /*no*/
+            color: $font_orange_color;
+            margin-right: 24px;/*no*/
+        }
+        &-search {
+            width: 280px; /*no*/
+            height: 32px; /*no*/
+            opacity: 0.6;
+            padding-left: 20px;/*no*/
+            padding-right: 14px;/*no*/
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-sizing: border-box;
+            border-radius: 16px;/*no*/
+            background-color: $bg_333;
+            input {
+                height: 100%;
+                color: $font_orange_color;
+                background-color: transparent;
+                &::placeholder {
+                    color: $font_orange_color;
+                }
+            }
+            img {
+                width: 24px;/*no*/
+            }
+        }
+    }
+    &-left {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        div {
+            margin-left: 14px;/*no*/
+            p {
+                text-align: center;
+                &:last-child {
+                    margin-top: 4px;/*no*/
+                    font-size: 12px;/*no*/
+                }
+            }
+        }
+    }
+    &-right {
+        line-height: 70px;/*no*/
+        a {
+            margin-left: 24px;/*no*/
+            display: inline-block;
+        }
+        img {
+            width: 32px;/*no*/
+            height: 32px;/*no*/
+            vertical-align: middle;
+        }
+    }
+} 
+
+/*
+ *  Banner组件样式
+ */
+.banner {
+    height: 500px;/*no*/
+    margin-top: 24px;/*no*/
+    display: flex;
+    justify-content: space-between;
+    &-left {
+        width: 794px;/*no*/
+        border-radius: 4px;/*no*/
+        overflow: hidden;
+        img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+    }
+    &-right {
+        width: 394px;/*no*/
+        & > a {
+            display: block;
+            margin-top: 10px;/*no*/
+            margin-bottom: 10px;/*no*/
+            &:first-child {
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+        }
+        img {
+            display: block;
+            height: 160px;/*no*/
+        }
+        &-bototm {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}
+
+/*
+ *  Banner组件样式
+ */
+.tabs {
+    height: 50px; /*no*/
+    line-height: 50px; /*no*/
+    margin: 24px 0; /*no*/
+    overflow: hidden;
+    position: relative;
+    background-color: $tabsBg;
+    &-item {
+        float: left;
+        font-size: 14px; /*no*/
+        margin-left: 40px; /*no*/
+        color: $font_white_color;
+        text-align: center;
+        cursor: pointer;
+        &:first-child {
+            margin-left: 20px; /*no*/
+        }
+    }
+    .active {
+        color: $font_orange_color;
+    }
+    &-line {
+        height: 2px; /*no*/
+        background-color: $font_orange_color;
+        position: absolute;
+        bottom: 10px; /*no*/
+        transition: left .4s;
+    }
+}
+/*
+ *  Aeea 组件样式
+ */
+.area {
+    &-cell {
+        display: flex;
+    }
+    &-title {
+        width: 110px; /*no*/
+        height: 32px; /*no*/
+        line-height: 28px; /*no*/
+        font-size: 14px; /*no*/
+        color: $font_white_color;
+        padding-left: 18px; /*no*/
+        margin-bottom: 6px; /*no*/
+        letter-spacing: 2px; /*no*/
+        box-sizing: border-box;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-image: url('/images/AreaBg.png');
+    }
+    &-right {
+        color: $font_white_color;
+        margin-left: 30px; /*no*/
+    }
+    &-name {
+        width: 80px; /*no*/
+        height: 32px; /*no*/
+        line-height: 28px; /*no*/
+        text-align: center;
+        margin-bottom: 6px; /*no*/
+        cursor: pointer;
+        display: inline-block;
+    }
+}

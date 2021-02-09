@@ -1,0 +1,29 @@
+html,
+body,
+#app{
+    width: 100%;
+    height: 100%;
+}
+html {
+    font-size: 14px !important; /*no*/
+}
+body {
+    background-color: #565148;
+}
+a {
+    text-decoration: none;
+}
+input {
+    border: none;
+    outline: none;
+}
+.main {
+    width: 1200px;  /*no*/
+    max-width: 1200px; /*no*/
+    margin: 0 auto;
+}
+
+
+/*
+ *  Home页面样式
+*/
