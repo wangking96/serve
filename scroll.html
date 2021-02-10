@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" id="html">
+<head>
+    <meta charset="UTF-8" />
+    <title>title heretitle></title>
+    <!-- <script src="scrollBar.js"></script> -->
+    <style>
+        #scroll{
+            position:absolute;
+            top:200px; 
+            left:50px;
+            width:300px; 
+            height:298px;
+            border:1px solid #999; 
+            overflow: hidden; }
+        #scroll-content{
+            position:absolute;
+            padding:20px; 
+            text-indent: 30px;
+            font-size: 14px; 
+            line-height: 25px;
+            font-family: '微软雅黑';}
+        #scrollBar{ 
+            position:absolute;
+            top:0; 
+            right:0;
+            height:300px; 
+            width:10px; 
+            background:#69cc9a;}
+            /* background:#ddd;} */
+        #tip{
+            position:absolute;
+            top:0;
+            left:0; 
+            background:#bceb2b; 
+            /* background:#999;  */
+            width:10px; 
+            min-height:60px; 
+            cursor:pointer;
+            border-radius: 8px;}
+    </style>
+<head>
+<body id="body">
+    <div id="scroll">
+        <div id="scroll-content">
+            一滴血而已，居然带动天地大势，滚滚而涌，让大漠沸腾，沙浪拍天，所有人都在颤栗！
+                异域百世
+            一滴血，居然造成这种要灭世般的景象，怎能令人不畏？
+            “不朽之王！”
+            这一刻，异域百万大军顶礼膜拜后，全都高呼，他们激动，神色疯狂，带着敬仰。还有无比的崇敬，仰望血海。
+            五色血液浩荡，真的如汪洋席卷而来，淹没这里。
+            的杀气，滔天而上，滚滚沸腾。
+                 大旗横空，如银河翻卷。猎猎作响，绽放出刺目的光，上面有血迹，虽然过去了一个纪元，还未彻底干涸。
+                因为，那是属于仙王的血，此时像是要滴落了下来，从旗面内不断渗出！
+                万大军全都跪伏了下去，进行膜拜！
+                刹那，域外诸多星斗都在摇动，整片大宇宙都要震荡起来，那种威势不可想象，撼天动地，岁月长河跟着浮现。
+                一滴血而已，就造成了这般无法理解的恐怖景象！
+                所有人都知道，那是异域的无上强者演绎的，真身过不来，洒出一滴血，跨过天渊，飞临这片战场中。
+            一滴血，晶莹欲滴，绽放五色不朽之光，滚滚而来，看着很小一滴，但是气势磅礴，压的乾坤轰鸣，要崩溃了。
+            帝关，城墙上。
+            许多人胆寒，哪怕有巨城可守，难以攻破，众人也惶恐，神魂都在不由自主的颤栗。
+            “我就知道，孟天正惹大祸了，我都已经谈好条件，他还出城，今日若有大难，他将是千古罪人！”金太君说道。
+            至于各族修士，包括金系人马、杜家等都早已说不出话来，那种恐怖波动，让他们一个脸色苍白。
+            许多人都觉得，不朽之王是不可战胜的，万一他们真的动身过来，城破了怎么办？
+            “应该……不会跨界吧？”一些人颤声道，这是杜家的大统领。
+            “跨界与否，一直是五五之数，就看他们的心意了！”金太君手拄着木杖说道。
+            帝关前，出城作战的帝关修士自然也都面色发白了，虽然说他们很勇猛，无所畏惧，但是那种压迫让他们身体难受。
+            轰！
+            几件仙器发光，隔绝外界，绽放出一缕又一缕白雾，那是仙气在弥漫，守护了他们。
+            然而，那滴血也发生了奇异的变化。迅速放大，如同汪洋一般，席卷了天上地下，迅速而来。铺天盖地。
+            仿佛世界末日来临，震撼人间，所有人都惶恐，难以抗拒。
+            域外，一颗又一颗星体都在跟着颤栗。在抖动，间要解体，要在这一刻崩开。
+            “铁血战旗，不复苏更待何时！”孟天正站在那里，一招手，将那面破烂的战旗取到手中，一声大吼，而后猛力将它掷出。
+                破烂的战旗，饱经岁月洗礼。带着万古的沉重与沧桑，哗的一声卷动，朝前方飞去，而后不断放大。
+                到了最后。它抖动起来，原本暗淡的旗面，发出盖
+        </div>
+        <div id="scrollBar">
+            <div id="tip"></div>
+        </div>
+    </div>
+    <script>
+
+         /* 
+  2  * @Author: dothin前端
+  3  * @Date:   2015-11-21 00:12:15
+  4  * @Last Modified by:   dothin前端
+  5  * @Last Modified time: 2015-11-21 00:29:12
+  6  */
+
+   var EventUtil = {
+       addHandler: function(obj, type, handler) {
+            if (obj.addEventListener) {
+                obj.addEventListener(type, handler, false);
+            } else if (obj.attachEvent) {
+                obj.attachEvent("on" + type, handler);
+            } else {
+                obj["on" + type] = handler;
+            }
+        },
+        removeHandler: function(obj, type, handler) {
+            if (obj.removeEventListener) {
+                obj.removeEventListener(type, handler, false);
+            } else if (obj.detachEvent) {
+                obj.detachEvent("on" + type, handler);
+            } else {
+                obj["on" + type] = null;
+            }
+        },
+        getEvent: function(event) {
+            return event ? event : window.event;
+        },
+        getTarget: function(event) {
+            return event.target || event.srcElement;
+        },
+        preventDefault: function(event) {
+            if (event.preventDefault) {
+                event.preventDefault();
+            } else {
+                event.returnValue = false;
+            }
+        },
+        stopPropagation: function(event) {
+            if (event.stopPropagation) {
+                event.stopPropagation();
+            } else {
+                event.cancelBubble = true;
+            }
+        },
+        getWheelDelta: function(event) {
+            if (event.wheelDelta) {
+                return event.wheelDelta;
+            } else {
+                return -event.detail * 40;
+            }
+        }
+    };
+    //tip:滚动条上面的长度可变的按钮
+    //scrollBar：滚动条
+    //section：内容父级
+    //article：内容
+    function ScrollBar(tip, scrollBar, section, article) {
+        this.oTip = document.getElementById(tip);
+        this.oScrollBar = document.getElementById(scrollBar);
+        this.oSection = document.getElementById(section);
+        this.oArticle = document.getElementById(article);
+        var _this = this;
+        this.init();
+        this.oTip.onmousedown = function(ev) {
+            _this.Down(ev);
+            return false;
+        };
+        this.oScrollBar.onclick = function(ev){
+            var h = _this.oScrollBar.offsetHeight+ _this.oScrollBar.getBoundingClientRect().top
+            _this.maxH = _this.oScrollBar.offsetHeight - _this.oTip.offsetHeight;
+            var tipH = _this.oTip.offsetHeight
+            if(ev.y>h-tipH){
+                 _this.Move(_this.oScrollBar.offsetHeight-60)
+                return
+            }
+            _this.Move(ev.clientY-_this.oScrollBar.getBoundingClientRect().top)
+        }
+        //给需要加滚动事件的元素加滚动事件
+        EventUtil.addHandler(this.oSection, 'mousewheel', function(ev) {
+            _this.onMouseWheel(ev);
+        }); //ie,chrome
+        EventUtil.addHandler(this.oSection, 'DOMMouseScroll', function(ev) {
+            _this.onMouseWheel(ev);
+        }); //ff
+        EventUtil.addHandler(this.oScrollBar, 'mousewheel', function(ev) {
+            _this.onMouseWheel(ev);
+        }); //ie,chrome
+        EventUtil.addHandler(this.oScrollBar, 'DOMMouseScroll', function(ev) {
+            _this.onMouseWheel(ev);
+        }); //ff
+    }
+    //初始化滚动条，内容不够时隐藏滚动条，滚动条按钮长度由内容长度决定
+    ScrollBar.prototype.init = function() {
+        if (this.oSection.offsetHeight >= this.oArticle.offsetHeight) {
+            this.oScrollBar.style.display = 'none';
+        } else {
+            this.oTip.style.height = 100 * this.oScrollBar.offsetHeight / (this.oArticle.offsetHeight - this.oSection.offsetHeight)/2 + 'px';
+            //document.title = this.oTip.style.height;
+        }
+        //各浏览器行高，字体大小，字体类型，不一致，要想初始化滚动条一致，先统一样式
+    };
+    ScrollBar.prototype.Down = function(ev) {
+        var oEvent = EventUtil.getEvent(ev);
+        var _this = this;
+        this.maxH = this.oScrollBar.offsetHeight - this.oTip.offsetHeight;
+        this.disY = oEvent.clientY - this.oTip.offsetTop;
+        document.onmousemove = function(ev) {
+           _this.fnMove(ev);
+           return false;
+       }
+       document.onmouseup = function(ev) {
+           _this.Up(ev);
+       }
+   };
+   ScrollBar.prototype.fnMove = function(ev) {
+       var oEvent = EventUtil.getEvent(ev);
+       var t = oEvent.clientY - this.disY;
+       this.Move(t);
+   };
+   ScrollBar.prototype.onMouseWheel = function(ev) {
+       var oEvent = EventUtil.getEvent(ev);
+       this.maxH = this.oScrollBar.offsetHeight - this.oTip.offsetHeight;
+       this.disY = oEvent.clientY - this.oTip.offsetTop;
+       if (EventUtil.getWheelDelta(oEvent) > 0) {
+           var t = this.oTip.offsetTop - 10;
+           this.Move(t);
+       } else {
+           var t = this.oTip.offsetTop + 10;
+           this.Move(t);
+       }
+       EventUtil.preventDefault(oEvent);
+   };
+   ScrollBar.prototype.Move = function(t) {
+       if (t < 0) {
+           t = 0;
+       } else if (t > this.maxH) {
+           t = this.maxH;
+       }
+       this.oTip.style.top = t + 'px';
+       this.contentH = this.oArticle.offsetHeight - this.oSection.offsetHeight;
+       this.oArticle.style.top = -this.contentH  / this.maxH * this.oTip.offsetTop + 'px';
+   };
+   ScrollBar.prototype.Up = function(ev) {
+       document.onmousemove = document.onmouseup = null;
+   };
+   window.ScrollBar = ScrollBar;
+   
+   new ScrollBar('tip','scrollBar','scroll','scroll-content');
+    </script>
+</body>
+</html>
