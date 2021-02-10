@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.demoHidden{
+			display: none;
+		}
+		.radioInput{
+			display: inline-block;
+			width:36px;
+			height:36px;
+			border:2px solid green;
+			border-radius:100%;
+			margin-right:10px;
+			vertical-align: middle;
+		}
+		.demoHidden:checked + .radioInput:after{
+			content:"";
+			display: inline-block;
+			width:26px;
+			height:26px;
+			background:#00a1e9;
+			border-radius:100%;
+			margin-top:5px;
+			margin-left:5px;
+		}
+		.demoHidden:checked + .radioInput{
+			border:2px solid #00a1e9;
+		}
+	</style>
+</head>
+<body>
+	<label>
+		<input type="radio" name="demo-radio" class="demoHidden">
+		<span class="radioInput"></span>先生 
+	</label>
+	<label>
+		<input type="radio" name="demo-radio" class="demoHidden">
+		<span class="radioInput"></span>女士 
+	</label>
+</body>
+</html>

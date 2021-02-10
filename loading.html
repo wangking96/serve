@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>防御系统</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+		}
+		body{
+			background-color: #f1eff263;
+		}
+		.spinner{
+			color: #fff;
+			background: #a7a6a7;
+			font-size: 14px;
+			text-align: center;
+			position: fixed;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%,-50%);
+			padding: 24px 16px;
+			border-radius: 6px;
+		}
+		.spinner .three-bounce {
+			display: inline-block;
+			vertical-align: middle;
+		}
+		.spinner .three-bounce>div {
+		    display: inline-block;
+		    width: 10px;
+		    height: 10px;
+		    border-radius: 100%;
+		    top: 50%;
+		    margin-top: -9px;
+		    background: #fff;
+		    -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+		    animation: bouncedelay 1.4s infinite ease-in-out;
+		    -webkit-animation-fill-mode: both;
+		    animation-fill-mode: both;
+		}
+		@keyframes bouncedelay{
+		   0%, 100%, 80% {
+			   transform: scale(0);
+			   -webkit-transform: scale(0);
+		   }
+			40% {
+				transform: scale(1);
+				-webkit-transform: scale(1);
+			}
+		}
+		.spinner .three-bounce .one {
+		    -webkit-animation-delay: -.32s;
+		    animation-delay: -.32s;
+		}
+		.spinner .three-bounce .two {
+		    -webkit-animation-delay: -.16s;
+		    animation-delay: -.16s;
+		}
+		.title{
+			text-align: center;
+			font-size: 24px;
+			margin-top: 110px;
+			color: #8a8686;
+		}
+		.line{
+			margin-top: 10px;
+		}
+		.error-mesage{
+			/* display: none; */
+			text-align: center;
+			margin-top: 28px;
+			color: red;
+		}
+	</style>
+</head>
+<body>
+	<p class="title">老番薯</p>
+	<p class="title line">为您选择最优线路</p>
+	<p class="error-mesage">
+		<svg class="icon" style="width: 1em;height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;color: red;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3709"><path d="M511.40096 0c-282.4704 0-511.40096 228.958208-511.40096 511.40096 0 282.418176 228.93056 511.40096 511.40096 511.40096 282.366976 0 511.40096-228.982784 511.40096-511.40096C1022.80192 228.958208 793.767936 0 511.40096 0zM588.1088 843.81184c0 28.240896-22.872064 51.140608-51.137536 51.140608l-51.140608 0c-28.268544 0-51.140608-22.899712-51.140608-51.140608L434.690048 792.672256c0-28.268544 22.872064-51.140608 51.140608-51.140608l51.140608 0c28.266496 0 51.137536 22.872064 51.137536 51.140608L588.1088 843.81184zM588.1088 588.111872c0 28.240896-22.872064 51.140608-51.137536 51.140608l-51.140608 0c-28.268544 0-51.140608-22.899712-51.140608-51.140608l-25.570304-434.690048c0-28.268544 22.872064-51.140608 51.140608-51.140608l102.278144 0c28.26752 0 51.139584 22.872064 51.139584 51.140608L588.1088 588.111872z" p-id="3710"></path></svg>
+		服务器异常</p>
+	<div class="spinner" p-id="149">
+		<span>拼命加载中</span>
+		<div class="three-bounce" p-id="150">
+			<div class="one" p-id="151"></div>
+			<div class="two" p-id="152"></div>
+			<div class="three" p-id="153"></div>
+		</div>
+	</div>
+	
+	
+	<script type="text/javascript" src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript">
+		var el = document.querySelector(".error-mesage");
+		el.onclick = clickFn;
+		function clickFn(){
+			console.log(1);
+		};		
+		function getLineFn(){
+			$.ajax({
+				url: 'https://list.pasigdomain.cc',
+				type: 'get',
+				data: '',
+				success: function(res){
+					var data = JSON.parse(res);
+					if(data instanceof Array){
+						var index = randomNumber(0, data.length);
+						// $('.error-mesage').hide();
+						location.href = data[index];
+					}else{
+						// $('.error-mesage').show();
+					}
+				},
+				error: function(err){
+					// $('.error-mesage').show();
+				}
+			})
+		}
+		// getLineFn();
+		
+		// 随机数
+		function randomNumber(start, end){
+			return Math.floor(Math.random()*(end-start))+start
+		}
+		
+		document.addEventListener('plusready', function(){
+			console.log("所有plus api都应该在此事件发生后调用，否则会出现plus is undefined。")
+			
+		});
+		
+	</script>
+</body>
+</html>
