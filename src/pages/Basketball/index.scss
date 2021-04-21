@@ -1,0 +1,17 @@
+@mixin flexCenter {
+    display: flex;
+    align-items: center;
+}
+.ball-basketball {
+    padding-top: 78px;
+    &-swiper {
+        width: 100%;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        background-size: cover; 
+        background-repeat: no-repeat;
+        background-position-x: -1px;
+        background-position-y: -78px;
+        background-image: url("@assets/images/video/video_bg.png");
+    }
+}

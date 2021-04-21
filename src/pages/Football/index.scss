@@ -1,0 +1,16 @@
+@mixin flexCenter {
+    display: flex;
+    align-items: center;
+}
+.ball-football {
+    padding-top: 78px;
+    &-swiper {
+        width: 100%;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        background-size: 100% auto; 
+        background-repeat: no-repeat;
+        background-position-y: -2px;
+        background-image: url("@assets/images/ball/index-bg.png");
+    }
+}

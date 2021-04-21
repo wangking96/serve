@@ -1,0 +1,48 @@
+.details-main {
+    width: 100%;
+    margin: 40px auto 0;
+    .card {
+        &-tabs {
+            overflow: hidden;
+            &-item {
+                float: left;
+                padding: 8px 24px;
+                text-align: center;
+                margin-left: 50px;
+                border-radius: 10px;
+                background-color: #939393;
+                font-size: 20px;
+                font-family: SimHei;
+                font-weight: 400;
+                color: #FEFEFF;
+                cursor: pointer;
+                &.active {
+                    background-color: #3C8BF7;
+                }
+                &:first-child {
+                    margin-left: 0;
+                }
+            }
+        }
+        &-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            span {
+                font-family: SimHei;
+                &.left {
+                    margin: 40px 0;
+                    font-size: 24px;
+                    font-weight: bold;
+                    color: #000000;
+                }
+                &.right {
+                    font-size: 18px;
+                    font-weight: 400;
+                    color: #939393;
+                    line-height: 52px;
+                }
+            }
+        }
+    }
+}

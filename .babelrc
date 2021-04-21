@@ -1,0 +1,19 @@
+{
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-typescript"
+  ],
+  "plugins": [
+    "@vue/babel-plugin-jsx",
+    "@babel/proposal-class-properties",
+    "@babel/proposal-object-rest-spread",
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "useESModules": true,
+        "regenerator": true
+      }
+    ]
+  ]
+}
+

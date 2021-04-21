@@ -1,0 +1,115 @@
+.today-match {
+    padding-bottom: 40px;
+    &-title {
+        width: 100%;
+        margin: 50px auto 30px;
+        font-size: 26px;
+        font-family: SimHei;
+        font-weight: 400;
+        color: #FFFFFF;
+    }
+    &-info {
+        width: 100%;
+        margin: 0 auto;
+        padding: 20px 0;
+        background: #F2F5FD;
+        border-radius: 30px;
+        position: relative;
+        overflow: hidden;
+        &-topImg {
+            position: absolute;
+            width: 180px;
+            height: 50px;
+            line-height: 50px;
+            top: 0;
+            font-size: 28px;
+            font-family: SimHei;
+            font-weight: bold;
+            color: #FFFFFF;
+            background-size: cover;
+            background-repeat: no-repeat;
+            box-sizing: border-box;
+            &.left-topImg {
+                left: 0;
+                padding-left: 42px;
+                background-image: url('@assets/images//ball/home_icon.png');
+            }
+            &.right-topImg {
+                right: 0;
+                text-align: right;
+                padding-right: 42px;
+                background-image: url('@assets/images//ball/away_icon.png');
+            }
+        }
+        &-top, &-bottom {
+            font-size: 16px;
+            font-family: DengXian;
+            color: #000000;
+            text-align: center;
+        }
+        &-top {
+            font-size: 24px;
+        }
+        &-content {
+            padding: 20px 30px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            & > div {
+                display: flex;
+                align-items: center;
+                &:first-child {
+                    justify-content: flex-end;
+                }
+            }
+            &-team-name {
+                min-width: 400px;
+                img {
+                    width: 100px;
+                    height: 100px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+                .home_name {
+                    text-align: right;
+                    margin-right: 44px;
+                }
+                .away_name {
+                    text-align: left;
+                    margin-left: 44px;
+                }
+                p {
+                    text-align: center;
+                    color: #000000;
+                    font-family: DengXian;
+                    &.name_ch{
+                        font-size: 28px;
+                        font-weight: bold;
+                    }
+                    &.name_en{
+                        margin-top: 6px;
+                        font-size: 20px;
+                        font-weight: 400;
+                    }
+                }
+            }
+            &-score {
+                margin: 0 100px;
+                div {
+                    font-size: 50px;
+                    font-family: DengXian;
+                    font-weight: bold;
+                    color: #000000
+                }
+                span {
+                    font-size: 40px;
+                    font-family: Tensentype MeiHeiJ;
+                    font-weight: bold;
+                    color: #80693F;
+                    margin: 0 40px;
+                }
+            }
+        }
+    }
+}

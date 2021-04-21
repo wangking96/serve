@@ -1,0 +1,173 @@
+.ball-match-list {
+    width: 100%;
+    z-index: 11;
+    box-sizing: border-box;
+    border-radius: 10px;
+    &-tabs {
+        margin: 30px auto 40px;
+        .main {
+            height: 78px;
+            padding: 30 26px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 10px;
+            background-color: #fff;
+        }
+        &.tabs-fixed {
+            margin: auto;
+            position: fixed;
+            top: 78px;
+            width: 100%;
+            left: 0;
+            background-color: #fff;
+        }
+        &-left {
+            overflow: hidden;
+            & > div {
+                float: left;
+                width: 96px;
+                height: 36px;
+                line-height: 36px;
+                text-align: center;
+                margin-left: 30px;
+                border-radius: 6px;
+                color: #939393;
+                font-size: 18px;
+                font-family: Microsoft YaHei;
+                cursor: pointer;
+                letter-spacing: 1px;
+                &:first-child {
+                    margin-left: 0;
+                }
+                &.active {
+                    color: #fff;
+                    font-weight: 600;
+                    background-color: #3C8BF7;
+                }
+            }
+        }
+        &-right {
+            cursor: pointer;
+            img {
+                width: 18px;
+                height: 23px;
+                margin-right: 14px;
+                display: inline-block;
+                vertical-align: baseline;
+            }
+            span {
+                font-size: 20px;
+                font-family: Microsoft YaHei;
+                font-weight: 400;
+                color: #939393;
+            }
+        }
+    }
+    &-time {
+        font-size: 20px;
+        font-family: DengXian;
+        font-weight: 400;
+        color: #393939;
+    }
+    &-content {
+        &-item {
+            padding: 26px;
+            margin-top: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #fff;
+            &-match-time {
+                display: flex;
+                align-items: center;
+                img {
+                    width: 28px;
+                    height: 28px;
+                    margin-right: 20px;
+                    vertical-align: middle;
+                }
+                span {
+                    font-size: 20px;
+                    font-family: DengXian;
+                    font-weight: bold;
+                    color: #393939;
+                }
+            }
+            &-middle {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+            }
+            &-team-name {
+                @include flexCenter();
+                img {
+                    width: 50px;
+                    height: 50px;
+                }
+                p {
+                    color: #000000;
+                    font-family: DengXian;
+                    text-align: center;
+                    min-width: 300px;
+                    &.name_zh {
+                        font-size: 20px;
+                        font-weight: bold;
+                    }
+                    &.name_en {
+                        font-size: 16px;
+                        font-weight: 400;
+                    }
+                }
+            }
+            &-team-score {
+                @include flexCenter();
+                div {
+                    margin: 0 28px;
+                    font-size: 24px;
+                    font-family: Tensentype MeiHeiJ;
+                    font-weight: bold;
+                    color: #80693F;
+                }
+                span {
+                    font-size: 36px;
+                    font-family: FZDaHei-B02S;
+                    font-weight: 400;
+                    color: #393939;
+                }
+            }
+            &-match-status span {
+                min-width: 80px;
+                text-align: center;
+                padding: 6px 10px;
+                font-size: 20px;
+                font-family: DengXian;
+                font-weight: 400;
+                color: #FFFFFF;
+                border-radius: 20px;
+                display: block;
+                background-color: #3BB40C;
+            }
+        }
+        &-loading {
+            margin: 40px 0 10px;
+            text-align: center;
+            img {
+                width: 60px;
+            }
+            p {
+                margin-top: 10px;
+                padding-left: 14px;
+            }
+        }
+        &-more {
+            margin-top: 20px;
+            padding: 30px 0;
+            text-align: center;
+        }
+    }
+}

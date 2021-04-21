@@ -1,0 +1,57 @@
+@import '~swiper/dist/css/swiper.css';
+
+.ball-swiper-box{
+    width: 100%;
+    // height: 576px;
+    // background-color: rgba($color: #000000, $alpha: 0.5);
+    @include flexCenter();
+    position: relative;
+    .swiper-container {
+        width: 100%;
+        height: 576px;
+        padding-bottom: 20px;
+        .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }  
+    .swiper-button-prev {
+        left: 0;
+    }
+    .swiper-button-next {
+        right: 0;
+    }
+    .swiper-container-horizontal > .swiper-pagination-bullets {
+        bottom: 0;
+    }
+    .my-bullet {    
+        width: 8px;
+        height: 8px;
+        opacity: .5;
+        margin-right: 8px;
+        border-radius: 100%;
+        display: inline-block;
+        background-color: #fff;
+    }
+    .my-bullet-active {
+        opacity: 1;
+        background-color: #fff;
+    }
+    .swiper-btn {
+        width: 30px;
+        height: 50px;
+        right: -80px;
+        cursor: pointer;
+        position: absolute;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+    .prev {
+        left: -80px;
+        background-image: url('@assets/images/ball/left_arrow.png');
+    }
+    .next {
+        background-image: url('@assets/images/ball/right_arrow.png');
+    }
+}

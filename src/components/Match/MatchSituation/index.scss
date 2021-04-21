@@ -1,0 +1,11 @@
+.match-situation {
+    .list {
+        border-radius: 30px;
+        box-shadow: 0px 15px 15px 0px rgba(0, 0, 0, 0.1);
+        &-cell {
+            &:nth-child(2) {
+                border-bottom: 1px solid #C3C3C3;
+            }
+        }
+    }
+}

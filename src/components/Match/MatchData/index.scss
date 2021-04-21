@@ -1,0 +1,36 @@
+.match-data {
+    &-scoring-list,
+    &-player-list .tabs,
+    &-recent-record .tabs {
+        overflow: hidden;
+        border-radius: 30px;
+        box-shadow: 0px 15px 15px 0px rgba(0, 0, 0, 0.1);
+    }
+    &-scoring-list {
+        margin-bottom: 40px;
+        .list-cell {
+            padding: 0;
+            &:nth-child(2) {
+                border-bottom: 1px solid #C3C3C3;
+            }
+            div {
+                &:first-child {
+                    flex: 0.6;
+                }
+            }
+        }
+    }
+    &-player-list,
+    &-recent-record {
+        .content-item {
+            width: 100%;
+            flex-shrink: 0;
+            .list-cell {
+                background-color: #e9eefc;
+                &:nth-child(even) {
+                    background-color: #fff;
+                }
+            }
+        }
+    }
+}

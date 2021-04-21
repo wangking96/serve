@@ -1,0 +1,44 @@
+.ball-live-message {
+    position: fixed;
+    top: 16%;
+    left: 50%;
+    z-index: 1000;
+    transform: translate(-50%, -50%);
+    letter-spacing: 3px;
+    padding: 20px 40px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 500;
+    white-space: nowrap;
+    color: #FEFEFE;
+    transition: top .3s;
+    animation: side-down .3s;
+    color: #909399;
+    box-sizing: border-box;
+    border: 1px solid #ebeef5;
+    background-color: #edf2fc;
+    &-error {
+        
+        color: #f56c6c;
+        border: 1px solid;
+        border-color: #fde2e2;
+        background-color: #fef0f0;
+    }
+    &-success {
+        color: #67c23a;
+        border-color: #e1f3d8;
+        background-color: #f0f9eb;
+    }
+}
+@keyframes side-down {
+    0% {
+      top: -100%;
+      display: none;
+    }
+    100% {
+      top: 16%;
+      display: block;
+    }
+}

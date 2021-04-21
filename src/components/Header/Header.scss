@@ -1,0 +1,43 @@
+.ball-header-box {
+    width: 100%;
+    height: 78px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-image: url("@assets/images/header/header_bg.png");
+    .main {
+        height: 100%;
+        @include flexStartCenter();
+    }
+    &-logo {
+        @include flexCenter();
+        cursor: pointer;
+        img {
+            width: 190px;
+        }
+    }
+    &-tabs {
+        @include flexStartCenter();
+        height: 100%;
+        margin-left: 160px;
+        &-item {
+            height: 100%;
+            width: 150px;
+            color: #C3C3C3;
+            @include flexCenter();
+            cursor: pointer;
+            font-size: 26px;
+            font-family: SimHei;
+            font-weight: 400;
+            color: #C3C3C3;
+            letter-spacing: 8px;
+            &.active {
+                background: #0d38d2;
+                color: #FFFFFF;
+            }
+        }
+    }
+}
