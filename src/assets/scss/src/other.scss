@@ -1,0 +1,21 @@
+@mixin bgurl($url) {
+    background-image: url($url);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+@mixin positionAbs {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+
+$primary-color: #0071fe;
+$error-color: #f23648;
+$error-bg-color: #fddfe2;
+$success-color: #21a67a;
+$success-bg-color: #e0eee4;

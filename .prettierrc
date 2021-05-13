@@ -1,0 +1,8 @@
+{
+    "": true,
+    "tabWidth": 4,
+    "singleQuote": true,
+    "semi": true,
+    "requireConfig": true,
+    "eslintIntegration": true
+}
