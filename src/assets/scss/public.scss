@@ -1,0 +1,101 @@
+/*
+*   flex 布局
+*/
+@mixin flexCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@mixin flexDirectionColumn {
+    display: flex;
+    flex-direction: column;
+}
+@mixin flexAlignItemsCenter {
+    display: flex;
+    align-items: center;
+}
+@mixin flexBetween {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+@mixin flexWrapBetween {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+@mixin flexLineEnd {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+@mixin flexNowrap {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
+/*
+*   定位
+*/
+@mixin position($position, $top: none, $left: none, $right: none, $bottom: none, $zIndex: none) {
+    position: $position;
+    @if($top != 'none') {
+        top: $top;
+    }
+    @if($left != 'none') {
+        left: $left;
+    }
+    @if($right != 'none') {
+        right: $right;
+    }
+    @if($bottom != 'none') {
+        bottom: $bottom;
+    }
+    @if($zIndex != 'none') {
+        z-index: $zIndex;
+    }
+}
+
+/*
+ *  字体样式
+*/
+@mixin font($size: none, $weight: none, $family: none, $center: none, $color: none) {
+    @if($size != 'none') {
+        font-size: $size;
+    }
+    @if($weight != 'none') {
+        font-weight: $weight;
+    }
+    @if($family != 'none') {
+        font-family: $family;
+    }
+    @if($center != 'none') {
+        text-align: $center;
+    }
+    @if($color != 'none') {
+        color: $color;
+    }
+}
+
+/*
+*   文本超出隐藏
+*/
+@mixin textOverflow {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+/*
+*   背景样式
+*/
+@mixin bg($size: cover, $repeat: no-repeat, $px: none, $py: none) {
+    background-size: $size;
+    background-repeat: $repeat;
+    @if($px != 'none') {
+        background-position-x: $px;
+    }
+    @if($py != 'none') {
+        background-position-y: $py;
+    }
+}
