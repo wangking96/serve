@@ -33,7 +33,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .navbar {
     width: 100vw;
-    height: 90px;
+    height: 96px;
     padding: 0 18px;
     @include flexBetween();
     box-sizing: border-box;

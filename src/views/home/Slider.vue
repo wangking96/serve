@@ -33,13 +33,12 @@ export default defineComponent({
             Request({
                 params: {
                     service: api.slide,
-                    method: 'post',
                 },
             }).then((res) => {
                 if(res.code === 0 && res.info) {
                     data.sliders = res.info[0].list
                 }
-        });
+            });
         })
 
         return {
@@ -64,11 +63,12 @@ export default defineComponent({
         width: 350px;
         height: 180px;
         flex-shrink: 0;
+        padding-top: 4px;
         margin-left: 20px;
         border-radius: 8px;
-        background-color: #fff;
         padding-bottom: 14px;
         box-sizing: border-box;
+        background-color: #fff;
         @include flexDirectionColumn();
         &:first-child {
             margin-left: 0;

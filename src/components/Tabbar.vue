@@ -63,7 +63,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .tabbar {
     width: 100%;
-    height: 90px;
+    height: 100px;
     background-color: #fff;
     box-sizing: content-box;
     padding-bottom: constant(safe-area-inset-bottom);
@@ -78,11 +78,11 @@ export default defineComponent({
             height: 48px;
             display: block;
             object-fit: cover;
-            margin: 4px auto;
+            margin: 8px auto;
             transition: all .3s;
         }
         div {
-            @include font($size: 22px, $center: center, $color: #646566);
+            @include font($size: 12px, $center: center, $color: #646566);
         }
         &.active {
             img {

@@ -25,81 +25,32 @@
                     <div class="hot">{{ item.viewnum }}</div>
                 </div>
             </div>
-            <div
-                class="anchor-recommend-item"
-                v-for="item in anchor"
-                :key="item.id"
-            >
-                <div
-                    class="anchor-recommend-item-cover"
-                    @click="goToStudioFn(item)"
-                >
-                    <div class="living"></div>
-                    <img :src="item.thumb" alt="" />
-                </div>
-                <div class="anchor-recommend-item-title ovh">
-                    {{ item.title }}
-                </div>
-                <div class="anchor-recommend-item-desc">
-                    <div class="nickname ovh">{{ item.user_nicename }}</div>
-                    <div class="hot">{{ item.viewnum }}</div>
-                </div>
-            </div>
-            <div
-                class="anchor-recommend-item"
-                v-for="item in anchor"
-                :key="item.id"
-            >
-                <div
-                    class="anchor-recommend-item-cover"
-                    @click="goToStudioFn(item)"
-                >
-                    <div class="living"></div>
-                    <img :src="item.thumb" alt="" />
-                </div>
-                <div class="anchor-recommend-item-title ovh">
-                    {{ item.title }}
-                </div>
-                <div class="anchor-recommend-item-desc">
-                    <div class="nickname ovh">{{ item.user_nicename }}</div>
-                    <div class="hot">{{ item.viewnum }}</div>
-                </div>
-            </div>
         </div>
     </div>
 </template>
 
 <script>
-import { defineComponent, onMounted, reactive, toRefs } from 'vue';
+import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
-import api from '../api/api';
-import Request from '../common/request';
 export default defineComponent({
+    props: {
+        anchor: {
+            type: Array,
+            default: []
+        }
+    },
     setup() {
         const router = useRouter();
-        const data = reactive({
-            anchor: [],
-        });
-        onMounted(() => {
-            Request({
-                params: {
-                    service: api.anchorRecommend,
-                    method: 'post',
-                },
-            }).then((res) => {
-                console.log(res);
-                if (res.code === 0) {
-                    data.anchor = res.info;
+       
+        const goToStudioFn = (item) => {
+            router.push({
+                path: '/liveRoom',
+                query: {
+                    id: item.uid
                 }
             });
-        });
-
-        const goToStudioFn = (item) => {
-            console.log(item);
-            router.push('/liveRoom');
         };
         return {
-            ...toRefs(data),
             goToStudioFn,
         };
     },
@@ -119,7 +70,7 @@ export default defineComponent({
             height: 43px;
             @include bg();
             margin-right: 14px;
-            background-image: url('../assets/images/home/hot.png');
+            background-image: url('../assets/images/public/hot.png');
         }
         &-text {
             @include font($size: 30px, $weight: 500, $color: #000);
@@ -173,7 +124,7 @@ export default defineComponent({
                     @include bg();
                     display: block;
                     margin-right: 6px;
-                    background-image: url('../assets/images/home/hot.png');
+                    background-image: url('../assets/images/public/hot.png');
                 }
             }
         }

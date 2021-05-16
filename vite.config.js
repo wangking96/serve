@@ -37,6 +37,6 @@ export default defineConfig({
           "/api": "", //代理网址
         },
         cors: true,
-        host: '192.168.1.11'
+        // host: ''
     },
 })

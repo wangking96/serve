@@ -3,7 +3,7 @@ import App from './App.vue';
 import router from './router/index';
 import store from './store/index';
 import coms from './common/useComponents';
-import 'normalize.css';
+import 'reset-css';
 const app = createApp(App);
 
 coms.forEach(item => {

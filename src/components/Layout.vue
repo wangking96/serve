@@ -11,10 +11,10 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, reactive, toRefs } from 'vue';
+import { defineComponent, nextTick, onMounted, reactive, toRefs } from 'vue';
 import Tabbar from './Tabbar.vue';
 import Navbar from './Navbar.vue';
-import { debounce } from '../common/utils';
+import { debounce } from '../common/tools';
 export default defineComponent({
     components: {
         Navbar,
@@ -39,8 +39,10 @@ export default defineComponent({
             screenHeight: window.innerHeight || document.body.clientHeight,
         });
         onMounted(() => {
-            window.onresize = debounce(() => {
-                data.screenHeight = document.documentElement.clientHeight;
+            nextTick(() => {
+                window.onresize = debounce(() => {
+                    data.screenHeight = window.innerHeight || document.body.clientHeight
+                })
             })
         })
         return {
@@ -57,7 +59,7 @@ export default defineComponent({
     &-main {
         flex: 1;
         width: 100%;
-        height: calc(100vh - 180px);
+        height: calc(100% - 196px);
         overflow-x: hidden;
         overflow-y: auto;
     }
