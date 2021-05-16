@@ -17,6 +17,10 @@ const routes = [
         path: '/liveRoom',
         name: 'liveRoom',
         component: () => import('../views/liveRoom/index.vue')
+    },{
+        path: '/login',
+        name: 'login',
+        component: () => import('../components/Login.vue')
     }
 ];
 

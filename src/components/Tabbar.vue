@@ -82,7 +82,7 @@ export default defineComponent({
             transition: all .3s;
         }
         div {
-            @include font($size: 12px, $center: center, $color: #646566);
+            @include font($size: 24px, $center: center, $color: #646566);
         }
         &.active {
             img {

@@ -56,8 +56,7 @@ export default defineComponent({
     @include flexNowrap();
     background-color: #f7f7f7;
     &::-webkit-scrollbar {
-        width: 0;
-        height: 0;
+        display: none;
     }
     &-item {
         width: 350px;

@@ -18,4 +18,7 @@ export default defineComponent({
 .ovh {
     @include textOverflow();
 }
+.my-toast {
+    padding: 10px !important;
+}
 </style>
