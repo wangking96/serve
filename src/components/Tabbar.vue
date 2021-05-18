@@ -20,7 +20,7 @@ import home  from '../assets/images/tabbar/home.png';
 import homeSelect  from '../assets/images/tabbar/home-select.png';
 import match from '../assets/images/tabbar/match.png';
 import matchSelect from '../assets/images/tabbar/match-select.png';
-import app from '../assets/images/tabbar/app.png';
+import app from '../assets/images/public/logo.png';
 import mine from '../assets/images/tabbar/mine.png';
 import mineSelect from '../assets/images/tabbar/mine-select.png';
 const tabbar = [

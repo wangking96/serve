@@ -12,8 +12,8 @@
                         class="live-room-tab-item"
                     >
                         <component
-                            :contract="item.com === curTab.com && contract"
-                            :liveInfo="item.com === curTab.com && liveInfo"
+                            :contract="item.com === 'AnchorInfo' && contract"
+                            :liveInfo="item.com === 'LiveInfo' && liveInfo"
                             v-if="item.com === curTab.com"
                             :is="curTab.com"
                         ></component>

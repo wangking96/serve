@@ -20,7 +20,15 @@ const routes = [
     },{
         path: '/login',
         name: 'login',
-        component: () => import('../components/Login.vue')
+        component: () => import('../views/mine/UserLogin.vue')
+    },{
+        path: '/register',
+        name: 'register',
+        component: () => import('../views/mine/UserRegister.vue')
+    },{
+        path: '/find',
+        name: 'find',
+        component: () => import('../views/mine/UserFindPassword.vue')
     }
 ];
 

@@ -11,9 +11,16 @@
 
 <script>
 import { defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
 export default defineComponent({
     setup() {
-        return {};
+        const router = useRouter();
+        const gobackFn = () => {
+            router.go(-1);
+        }
+        return {
+            gobackFn
+        };
     },
 });
 </script>

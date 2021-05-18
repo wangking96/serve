@@ -2,11 +2,13 @@
     <Layout :tabbar="true">
         <div class="mine">
             <div class="mine-head">
-                <div class="mine-head-avatar"></div>
+                <div class="mine-head-avatar">
+                    <img :src="userInfo.avatar" v-if="userInfo.avatar" alt="头像">
+                </div>
                 <div class="mine-head-user">
-                    <div class="mine-head-user-nickname" v-if="isLogin"></div>
+                    <div class="mine-head-user-nickname" v-if="userInfo.token">{{userInfo.user_nicename}}</div>
                     <div class="mine-head-user-go-login" @click="goToLoginFn" v-else>点击登录</div>
-                    <div class="mine-head-user-desc">您当前是访客身份</div>
+                    <div class="mine-head-user-desc">{{userInfo.token ? 'ID' + userInfo.id : '您当前是访客身份'}}</div>
                 </div>
             </div>
             <div class="mine-banner">
@@ -18,7 +20,7 @@
                 </a>
             </div>
             <div class="mine-settings">
-                <dic
+                <div
                     class="mine-settings-item"
                     v-for="sItem in settings"
                     :key="sItem.id"
@@ -32,7 +34,7 @@
                         <div class="title">{{ sItem.title }}</div>
                     </div>
                     <div class="mine-settings-item-right"></div>
-                </dic>
+                </div>
             </div>
         </div>
     </Layout>
@@ -40,21 +42,27 @@
 
 <script>
 import { Toast } from 'vant';
-import { defineComponent, reactive, toRefs } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue';
+
 import Layout from '@/components/Layout.vue';
 import subs from '../../assets/images/mine/user.png';
 import online from '../../assets/images/mine/online.png';
 import pwd from '../../assets/images/mine/pwd.png';
 import exit from '../../assets/images/mine/exit.png';
-import { useRouter } from 'vue-router';
+
+import api from '../../api/api';
+import Request from '../../common/request';
+
 export default defineComponent({
     components: {
         Layout,
     },
     setup() {
+        const store = useStore();
         const router = useRouter();
         const data = reactive({
-            isLogin: false,
             settings: [
                 { id: 1, title: '订阅主播', icon: subs },
                 { id: 2, title: '在线客服', icon: online },
@@ -62,6 +70,8 @@ export default defineComponent({
                 { id: 4, title: '意见反馈', icon: exit },
             ],
         });
+        const userInfo = computed(() => store.state.loginInfo);
+
         const goToLoginFn = () => {
             router.push('/login');
         }
@@ -69,10 +79,28 @@ export default defineComponent({
             Toast({
                 message: '请先登录!',
                 icon: 'warning-o',
-                className: 'my-toast'
             })
         }
+        onMounted(() => {
+            Request({
+                params: {
+                    uid: userInfo.value.id || '',
+                    token: userInfo.value.token || '',
+                    service: api.userInfo
+                }
+            }).then(res => {
+                if(res.code === 0) {
+                    store.commit('SET_USERINFO', res.info[0]);
+                }
+                if(res.code === 700) {
+                    Toast(res.msg);
+                    localStorage.clear();
+                    return
+                }
+            })
+        })
         return {
+            userInfo,
             ...toRefs(data),
             goToLoginFn,
             settingsClickFn
@@ -99,6 +127,11 @@ export default defineComponent({
             overflow: hidden;
             border-radius: 50%;
             background-image: url('../../assets/images/public/logo-default.png');
+            img {
+                width: 100%;
+                display: block;
+                object-fit: cover;
+            }
         }
         &-user {
             color: #fff;
@@ -114,7 +147,7 @@ export default defineComponent({
     &-banner {
         width: 684px;
         height: 192px;
-        margin: -54px auto 0;
+        margin: -54px auto 40px;
         a,
         img {
             width: 100%;
@@ -130,7 +163,7 @@ export default defineComponent({
     }
     &-settings {
         &-item {
-            padding: 30px 26px;
+            padding: 36px 26px;
             box-sizing: border-box;
             @include flexBetween();
             border-bottom: 1px solid rgba(245, 246, 247, .9);

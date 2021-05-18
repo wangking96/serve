@@ -7,6 +7,18 @@ const api = {
 
     // 直播
     liveInfo: 'Live.GetLiveInfo',
-    liveAnchorRecommend: 'Home.GetRecommendedStream'
+    liveAnchorRecommend: 'Home.GetRecommendedStream',
+
+    // 用户
+    userInfo: 'User.GetBaseInfo',
+    userLogin: 'Login.UserLogin',
+    userRegister: 'Login.UserReg',
+    getCheckCode: 'Login.GetCode',
+    userIsExist: 'PCLogin.CheckUserExists',
+
+    // 赛事
+    football: '/api/v1/football/getMatchAllList',
+    playingList: 'api/v1/football/getMatchPlayingList',
+    matchListByDate: 'api/v1/football/getMatchListByDate',
 }
 export default api;

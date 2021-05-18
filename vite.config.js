@@ -38,5 +38,5 @@ export default defineConfig({
         },
         cors: true,
         host: ''
-    }
+    },
 })

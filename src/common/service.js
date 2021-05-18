@@ -20,22 +20,13 @@ let httpCode = {
 }
 
 service.interceptors.request.use((config) => {
-    if(config.type === 'default') {
-        config.baseURL = 'https://liveapi.hskjsj.com';
-    }
+    config.baseURL = config.type === 'default' ? 'https://liveapi.hskjsj.com' : 'https://sportsapi.hskjsj.com';
     let token = localStorage.getItem('token') || '';
-    if(token) config.headers.token = token;
+    if (token) config.headers.token = token;
     // config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
     return config;
 })
 service.interceptors.response.use(res => {
-    if(res.data.ret === 400) {
-        message({
-            type: 'error',
-            message: httpCode[res.data.code]
-        })
-        return
-    }
     return res.data.data;
 })
 

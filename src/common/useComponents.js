@@ -4,7 +4,10 @@ import {
     TabbarItem,
     Swipe,
     SwipeItem,
-    Lazyload
+    Lazyload,
+    PullRefresh,
+    List,  
+    Loading
 } from 'vant';
 
 const coms = [
@@ -13,6 +16,9 @@ const coms = [
     TabbarItem,
     Swipe, 
     SwipeItem,
+    Loading,
+    PullRefresh,
+    List,
     Lazyload
 ]
 

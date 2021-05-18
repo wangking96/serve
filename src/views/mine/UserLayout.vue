@@ -1,55 +1,28 @@
 <template>
     <Layout>
-        <div class="login bg">
-            <div class="bg-back" @click="goBackFn">
-                <img src="../assets/images/public/left-arrow.png" alt="back" />
-            </div>
-            <div class="bg-form">
+        <div class="user-bg">
+            <div class="user-bg-back" @click="goBackFn">
                 <img
-                    src="../assets/images/public/login-logo.png"
+                    src="../../assets/images/public/left-arrow.png"
+                    alt="back"
+                />
+            </div>
+            <div class="user-bg-form">
+                <img
+                    src="../../assets/images/public/login-logo.png"
                     alt="logo"
                     class="logo"
                 />
-                <div class="bg-form-item">
-                    <div class="bg-form-item-input">
-                        <div class="icon phone"></div>
-                        <input
-                            type="text"
-                            maxlength="11"
-                            placeholder="请输入您的手机号"
-                        />
-                    </div>
-                    <div class="bg-form-item-tips" v-if="phoneTips">
-                        手机号格式有误
-                    </div>
-                </div>
-                <div class="bg-form-item">
-                    <div class="bg-form-item-input">
-                        <div class="icon password"></div>
-                        <input
-                            type="password"
-                            maxlength="20"
-                            placeholder="请输入密码"
-                        />
-                    </div>
-                    <div class="bg-form-item-tips" v-if="passwordTips">
-                        密码错误
-                    </div>
-                </div>
-                <div class="bg-form-submite">立即登录</div>
-                <div class="bg-form-bottom">
-                    <div>立即注册</div>
-                    <div>忘记密码</div>
-                </div>
+                <slot />
             </div>
         </div>
     </Layout>
 </template>
 
 <script>
-import { defineComponent, reactive, toRefs } from 'vue';
+import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
-import Layout from '../components/Layout.vue';
+import Layout from '../../components/Layout.vue';
 
 export default defineComponent({
     components: {
@@ -57,35 +30,30 @@ export default defineComponent({
     },
     setup() {
         const router = useRouter();
-        const data = reactive({
-            phoneTips: false,
-            passwordTips: false,
-        });
         const goBackFn = () => {
             router.go(-1);
         };
         return {
             goBackFn,
-            ...toRefs(data),
         };
     },
 });
 </script>
 
-<style lang="scss" scoped>
-.bg {
+<style lang="scss">
+.user-bg {
     width: 100%;
     height: 100%;
     @include bg();
     padding-top: 120px;
     position: relative;
     box-sizing: border-box;
-    background-image: url('../assets/images/login/bg.png');
+    background-image: url('../../assets/images/login/bg.png');
     &-back {
         width: 80px;
         height: 100px;
         @include flexCenter();
-        @include position($position: absolute, $top: 0, $left: 0);
+        @include position($position: absolute, $top: 0, $left: 0, $zIndex: 9);
         img {
             width: 20px;
             height: 40px;
@@ -94,14 +62,18 @@ export default defineComponent({
             opacity: 0.9;
         }
     }
-    &-form {
+    .logo {
+        width: 446px;
+        display: block;
+        margin: 0 auto 100px;
+    }
+}
+.find,
+.login,
+.register {
+    .form {
         width: 520px;
         margin: auto;
-        .logo {
-            width: 446px;
-            display: block;
-            margin: 0 auto 100px;
-        }
         &-submite,
         &-item-input {
             width: 100%;
@@ -122,22 +94,30 @@ export default defineComponent({
                     @include bg();
                     margin-right: 14px;
                     &.phone {
-                        background-image: url('../assets/images/login/phone.png');
+                        background-image: url('../../assets/images/login/phone.png');
                     }
                     &.password {
-                        background-image: url('../assets/images/login/pwd.png');
+                        background-image: url('../../assets/images/login/pwd.png');
                     }
                 }
                 input {
                     flex: 1;
+                    width: 60%;
                     border: none;
                     outline: none;
                     margin-bottom: 4px;
-                    @include font($size: 24px, $color: #e4e4e4);
+                    box-sizing: border-box;
                     background-color: transparent;
+                    @include font($size: 28px, $color: #e4e4e4);
                     &::placeholder {
                         @include font($size: 24px, $color: #e4e4e4);
                     }
+                }
+                &-right {
+                    height: 100%;
+                    white-space: nowrap;
+                    @include flexAlignItemsCenter();
+                    @include font($size: 24px, $color: #e4e4e4);
                 }
             }
             &-tips {
@@ -147,6 +127,9 @@ export default defineComponent({
                     $left: 40px,
                     $bottom: -30px
                 );
+            }
+            .error {
+                background-color: #ab747487;
             }
         }
         &-submite {

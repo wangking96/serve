@@ -1,4 +1,6 @@
 const state = {
-    service: {}
+    service: {},
+    userInfo: {},
+    loginInfo: {}
 }
 export default state;
