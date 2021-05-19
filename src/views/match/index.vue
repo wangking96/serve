@@ -45,7 +45,7 @@
                             <MatchLoading :text="moreText" v-if="showMore" />
                         </div>
                         <MatchLoading :text="moreText" v-if="loading" />
-                        <div class="match-nodata" v-if="curTab.list.length < 1">
+                        <div class="match-nodata" v-if="curTab.list.length < 1 && !loading">
                             <img
                                 src="../../assets/images/match/nodata.png"
                                 alt=""

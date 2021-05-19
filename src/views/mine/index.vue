@@ -3,12 +3,30 @@
         <div class="mine">
             <div class="mine-head">
                 <div class="mine-head-avatar">
-                    <img :src="userInfo.avatar" v-if="userInfo.avatar" alt="头像">
+                    <img
+                        :src="loginInfo.avatar"
+                        v-if="loginInfo.avatar"
+                        alt="头像"
+                    />
                 </div>
                 <div class="mine-head-user">
-                    <div class="mine-head-user-nickname" v-if="userInfo.token">{{userInfo.user_nicename}}</div>
-                    <div class="mine-head-user-go-login" @click="goToLoginFn" v-else>点击登录</div>
-                    <div class="mine-head-user-desc">{{userInfo.token ? 'ID' + userInfo.id : '您当前是访客身份'}}</div>
+                    <div class="mine-head-user-nickname" v-if="loginInfo.token">
+                        {{ loginInfo.user_nicename }}
+                    </div>
+                    <div
+                        class="mine-head-user-go-login"
+                        @click="goToLoginFn"
+                        v-else
+                    >
+                        点击登录
+                    </div>
+                    <div class="mine-head-user-desc">
+                        {{
+                            loginInfo.token
+                                ? 'ID' + loginInfo.id
+                                : '您当前是访客身份'
+                        }}
+                    </div>
                 </div>
             </div>
             <div class="mine-banner">
@@ -70,40 +88,58 @@ export default defineComponent({
                 { id: 4, title: '意见反馈', icon: exit },
             ],
         });
-        const userInfo = computed(() => store.state.loginInfo);
+        const userInfo = computed(() => store.state.userInfo);
+        const loginInfo = computed(() => store.state.loginInfo);
 
         const goToLoginFn = () => {
             router.push('/login');
-        }
-        const settingsClickFn = () => {
-            Toast({
-                message: '请先登录!',
-                icon: 'warning-o',
-            })
-        }
+        };
+        const settingsClickFn = (sItem) => {
+            if (!loginInfo.value.token) {
+                Toast({
+                    message: '请先登录!',
+                    icon: 'warning-o',
+                });
+                return;
+            }
+            const list = userInfo.value.list;
+            if (!(list && list[2][1])) return;
+            switch (sItem.id) {
+                case 2:
+                    const kefuUrl = `${list[2][1].href}?uid=${loginInfo.value.id}&token=${loginInfo.value.token}`;
+                    window.open(kefuUrl, 'blank');
+                    break;
+                case 4:
+                    const url = `${list[2][2].href}?uid=${loginInfo.value.id}&token=${loginInfo.value.token}`;
+                    window.open(url, 'blank');
+                    break;
+                default:
+                    break;
+            }
+        };
         onMounted(() => {
             Request({
                 params: {
-                    uid: userInfo.value.id || '',
-                    token: userInfo.value.token || '',
-                    service: api.userInfo
-                }
-            }).then(res => {
-                if(res.code === 0) {
+                    uid: loginInfo.value.id || '',
+                    token: loginInfo.value.token || '',
+                    service: api.userInfo,
+                },
+            }).then((res) => {
+                if (res.code === 0) {
                     store.commit('SET_USERINFO', res.info[0]);
                 }
-                if(res.code === 700) {
+                if (res.code === 700) {
                     Toast(res.msg);
                     localStorage.clear();
-                    return
+                    return;
                 }
-            })
-        })
+            });
+        });
         return {
-            userInfo,
+            loginInfo,
             ...toRefs(data),
             goToLoginFn,
-            settingsClickFn
+            settingsClickFn,
         };
     },
 });
@@ -166,7 +202,7 @@ export default defineComponent({
             padding: 36px 26px;
             box-sizing: border-box;
             @include flexBetween();
-            border-bottom: 1px solid rgba(245, 246, 247, .9);
+            border-bottom: 1px solid rgba(245, 246, 247, 0.9);
             &-left {
                 @include flexAlignItemsCenter();
                 .icon {
