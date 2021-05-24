@@ -15,7 +15,7 @@
                         <p class="hot">{{ liveInfo.viewnum }}</p>
                     </div>
                 </div>
-                <div class="live-info-anchor-right">
+                <div class="live-info-anchor-right" :class="{'subscribed': liveInfo.isSubscribe != 0}">
                     {{ liveInfo.isSubscribe == 0 ? '订阅' : '已订阅' }}
                 </div>
             </div>
@@ -32,10 +32,11 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, reactive, toRefs } from 'vue';
+import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue';
 import AnchorRecommend from '../../components/AnchorRecommend.vue';
 import api from '../../api/api';
 import Request from '../../common/request';
+import { useStore } from 'vuex';
 export default defineComponent({
     components: {
         AnchorRecommend
@@ -46,7 +47,9 @@ export default defineComponent({
             default: {},
         },
     },
-    setup(props) {
+    setup() {
+        const store = useStore();
+        const userInfo = computed(() => store.state.userInfo);
         const data = reactive({
             anchor: []
         })
@@ -57,8 +60,8 @@ export default defineComponent({
                     p: '1',                         //页数
                     field: 'recom_sort',            //可排序字段，支持 recom_sort, starttime
                     order: 'random',                //排序，asc, desc, random
-                    uid: '',
-                    token: '',
+                    uid: userInfo.value.id || '',
+                    token: userInfo.value.token || '',
                     service: api.liveAnchorRecommend,
                 },
             }).then((res) => {
@@ -142,6 +145,9 @@ export default defineComponent({
                 $color: #fff,
                 $center: center
             );
+            &.subscribed {
+                background-color: rgb(204, 204, 204);
+            }
         }
     }
     &-notice {

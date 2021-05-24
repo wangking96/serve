@@ -15,8 +15,8 @@
             <div>
                 <div class="team-logo">
                     <img
-                        v-if="item.home_team && item.home_team.logo"
-                        :src="item.home_team && item.home_team.logo"
+                        v-if="item.home_team.logo"
+                        :src="item.home_team.logo"
                         alt=""
                     />
                 </div>
@@ -29,15 +29,15 @@
             <div>
                 <div class="team-logo">
                     <img
-                        v-if="item.away_team && item.away_team.logo"
-                        :src="item.away_team && item.away_team.logo"
+                        v-if="item.away_team.logo"
+                        :src="item.away_team.logo"
                         alt=""
                     />
                 </div>
             </div>
         </div>
         <div class="football-item-bottom flex">
-            <div>{{ item.home_team && item.home_team.nameCn }}</div>
+            <div>{{ item.home_team.nameCn }}</div>
             <div class="match-status">
                 <span v-if="item.is_playing === 1" class="sp02">
                     未开赛<i class="icon02"></i>
@@ -111,7 +111,7 @@ export default defineComponent({
                 height: 66px;
                 @include bg();
                 overflow: hidden;
-                background-image: url('../../assets/images/public/logo.png');
+                background-image: url('../../assets/images/platform/logo.png');
                 img {
                     width: 100%;
                     height: 100%;

@@ -10,6 +10,11 @@
     display: flex;
     flex-direction: column;
 }
+@mixin flexColumnCenter {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
 @mixin flexCenterColumn {
     display: flex;
     align-items: center;
@@ -39,6 +44,11 @@
 @mixin flexNowrap {
     display: flex;
     flex-wrap: nowrap;
+    flex-direction: row;
+}
+@mixin flexWrap {
+    display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
 }
 /*

@@ -4,8 +4,8 @@
             <div class="mine-head">
                 <div class="mine-head-avatar">
                     <img
-                        :src="loginInfo.avatar"
-                        v-if="loginInfo.avatar"
+                        :src="userInfo.avatar_thumb"
+                        v-if="userInfo.avatar_thumb"
                         alt="头像"
                     />
                 </div>
@@ -23,7 +23,7 @@
                     <div class="mine-head-user-desc">
                         {{
                             loginInfo.token
-                                ? 'ID' + loginInfo.id
+                                ? 'ID：' + loginInfo.id
                                 : '您当前是访客身份'
                         }}
                     </div>
@@ -53,6 +53,13 @@
                     </div>
                     <div class="mine-settings-item-right"></div>
                 </div>
+                <div class="mine-settings-item signout" v-if="loginInfo.token" @click="signOutFn">
+                    <div class="mine-settings-item-left">
+                        <div class="icon"></div>
+                        <div class="title">退出登录</div>
+                    </div>
+                    <div class="mine-settings-item-right"></div>
+                </div>
             </div>
         </div>
     </Layout>
@@ -63,16 +70,13 @@ import { Toast } from 'vant';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue';
-
 import Layout from '@/components/Layout.vue';
 import subs from '../../assets/images/mine/user.png';
 import online from '../../assets/images/mine/online.png';
 import pwd from '../../assets/images/mine/pwd.png';
-import exit from '../../assets/images/mine/exit.png';
-
+import opinion from '../../assets/images/mine/opinion.png';
 import api from '../../api/api';
 import Request from '../../common/request';
-
 export default defineComponent({
     components: {
         Layout,
@@ -82,15 +86,14 @@ export default defineComponent({
         const router = useRouter();
         const data = reactive({
             settings: [
-                { id: 1, title: '订阅主播', icon: subs },
+                { id: 1, title: '订阅主播', icon: subs, path: '/subscribe' },
                 { id: 2, title: '在线客服', icon: online },
-                { id: 3, title: '修改密码', icon: pwd },
-                { id: 4, title: '意见反馈', icon: exit },
+                { id: 3, title: '修改密码', icon: pwd, path: '/changePasswprd' },
+                { id: 4, title: '意见反馈', icon: opinion },
             ],
         });
         const userInfo = computed(() => store.state.userInfo);
         const loginInfo = computed(() => store.state.loginInfo);
-
         const goToLoginFn = () => {
             router.push('/login');
         };
@@ -114,9 +117,22 @@ export default defineComponent({
                     window.open(url, 'blank');
                     break;
                 default:
+                    router.push(sItem.path)
                     break;
             }
         };
+
+        const signOutFn = () => {
+            store.commit('SET_USERINFO');
+            store.commit('SET_LIVEINFO');
+            store.commit('SET_LOGININFO');
+            Toast({
+                type: 'success',
+                message: '退出成功!',
+                duration: 1800
+            });
+        };
+
         onMounted(() => {
             Request({
                 params: {
@@ -136,8 +152,10 @@ export default defineComponent({
             });
         });
         return {
+            userInfo,
             loginInfo,
             ...toRefs(data),
+            signOutFn,
             goToLoginFn,
             settingsClickFn,
         };
@@ -162,7 +180,7 @@ export default defineComponent({
             margin-right: 40px;
             overflow: hidden;
             border-radius: 50%;
-            background-image: url('../../assets/images/public/logo-default.png');
+            background-image: url('../../assets/images/platform/logo-default.png');
             img {
                 width: 100%;
                 display: block;
@@ -221,6 +239,9 @@ export default defineComponent({
                 @include bg();
                 background-image: url('../../assets/images/mine/arrow-right.png');
             }
+        }
+        .signout .mine-settings-item-left .icon {
+            background-image: url('../../assets/images/mine/pwd.png');
         }
     }
 }

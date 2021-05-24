@@ -14,14 +14,15 @@ export const prevWeek = () => {
     let today = moment().date();
     let prevWeekArr = [];
     for (let i = 14; i > 0; i--) {
-        today -= 1;
         let key = moment().date(today).day() || 0;
         let week = weekObj[key];
-        let date = moment().date(today).format("YYYY-MM-DD");
+        let date = moment().date(today).format("MM-DD");
         prevWeekArr.push({
             date,
-            week
+            week,
+            id: i
         });
+        today -= 1;
     }
     return prevWeekArr || [];
 }
@@ -30,14 +31,15 @@ export const nextWeek = () => {
     let today = moment().date();
     let prevWeekArr = [];
     for (let i = 0; i < 14; i++) {
-        today += 1;
         let key = moment().date(today).day() || 0;
         let week = weekObj[key];
-        let date = moment().date(today).format("YYYY-MM-DD");
+        let date = moment().date(today).format("MM-DD");
         prevWeekArr.push({
             date,
-            week
+            week,
+            id: i
         });
+        today += 1;
     }
     return prevWeekArr || [];
 }

@@ -12,7 +12,7 @@
             >
                 <div
                     class="anchor-recommend-item-cover"
-                    @click="goToStudioFn(item)"
+                    @click="goToLiveRoomFn(item)"
                 >
                     <div class="living"></div>
                     <img :src="item.thumb" alt="" />
@@ -32,6 +32,7 @@
 <script>
 import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 export default defineComponent({
     props: {
         anchor: {
@@ -40,9 +41,11 @@ export default defineComponent({
         }
     },
     setup() {
+        const store = useStore();
         const router = useRouter();
        
-        const goToStudioFn = (item) => {
+        const goToLiveRoomFn = (item) => {
+            store.commit('SET_LIVEINFO', item);
             router.push({
                 path: '/liveRoom',
                 query: {
@@ -51,7 +54,7 @@ export default defineComponent({
             });
         };
         return {
-            goToStudioFn,
+            goToLiveRoomFn,
         };
     },
 });
@@ -92,7 +95,7 @@ export default defineComponent({
                 width: 40px;
                 height: 40px;
                 @include bg();
-                background-image: url('../assets/images/home/living.webp');
+                background-image: url('../assets/images/public/living.webp');
                 @include position($position: absolute, $top: 4px, $right: 8px);
             }
             img {

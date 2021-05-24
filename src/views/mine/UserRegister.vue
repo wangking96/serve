@@ -61,7 +61,7 @@ import { Toast } from 'vant';
 import { defineComponent, reactive, toRefs, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 import UserLayout from './UserLayout.vue';
-import Loading from '../../components/Loading.vue';
+import Loading from '../../components/PopupLoading.vue';
 import api from '../../api/api';
 import Request from '../../common/request';
 import { encrypt } from '../../common/tools';

@@ -1,7 +1,8 @@
 <template>
    <div class="anchor-info">
        <div class="anchor-info-contract">
-            <div class="anchor-info-contract-item" v-for="cItem in contract" :key="cItem.id">
+            <template v-if="contract && contract.length > 0">
+                <div class="anchor-info-contract-item" v-for="cItem in contract" :key="cItem.id">
                 <div class="anchor-info-contract-item-left">
                     <div class="icon">
                         <img src="../../assets/images/live/QQ.png" alt="" v-if="cItem.type == 1"/>
@@ -13,6 +14,11 @@
                     </div>
                 </div>
                 <div class="anchor-info-contract-item-right">复制</div>
+            </div>
+            </template>
+            <div class="nodata" v-else>
+                <img src="../../assets/images/public/no-data.png" alt="">
+                <p>暂无主播联系方式，下载app更多超清比赛!</p>
             </div>
        </div>
     </div>
@@ -74,6 +80,16 @@ export default defineComponent({
                 letter-spacing: 4px;
                 @include font($size: 28px, $color: #fff, $center: center);
                 background: linear-gradient(to right, #ff6d22, #ff6820);
+            }
+        }
+        .nodata {
+            img {
+                width: 600px;
+                margin: auto;
+                display: block;
+            }
+            p {
+                @include font($size: 26px, $center: center);
             }
         }
     }

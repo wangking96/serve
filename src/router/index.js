@@ -29,6 +29,14 @@ const routes = [
         path: '/find',
         name: 'find',
         component: () => import('../views/mine/UserFindPassword.vue')
+    },{
+        path: '/subscribe',
+        name: 'subscribe',
+        component: () => import('../views/mine/Subscribe.vue')
+    },{
+        path: '/changePasswprd',
+        name: 'changePasswprd',
+        component: () => import('../views/mine/ChangePasswprd.vue')
     }
 ];
 

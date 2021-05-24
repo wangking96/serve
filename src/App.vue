@@ -3,9 +3,27 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted } from 'vue';
+import { useStore } from 'vuex';
+import api from './api/api';
+import Request from './common/request';
 export default defineComponent({
-    setup() {},
+    setup() {
+        const store = useStore();
+        const configFn = async () => {
+            const res = await Request({
+                params: {
+                    service: api.config
+                }
+            });
+            if(res.code === 0 && res.info.length > 0) {
+                store.commit('SET_CONFIG', res.info[0])
+            }
+        }
+        onMounted(() => {
+            configFn();
+        })
+    },
 });
 </script>
 
@@ -17,7 +35,6 @@ export default defineComponent({
     @include textOverflow();
 }
 .my-toast {
-    width: auto !important;
     line-height: 50px !important;
     padding: 20px 24px !important;
 }

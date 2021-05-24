@@ -1,6 +1,11 @@
 <template>
     <div class="layout" :style="'height: ' + screenHeight + 'px;'">
-        <Navbar :showBack="showBack" v-if="navbar" />
+        <Navbar
+            :type="type"
+            :title="title"
+            :showBack="showBack"
+            v-if="navbar"
+        />
 
         <div class="layout-main">
             <slot />
@@ -21,6 +26,14 @@ export default defineComponent({
         Tabbar,
     },
     props: {
+        type: {
+            type: String,
+            default: 'default',
+        },
+        title: {
+            type: String,
+            default: '',
+        },
         navbar: {
             type: Boolean,
             default: false,
@@ -41,10 +54,11 @@ export default defineComponent({
         onMounted(() => {
             nextTick(() => {
                 window.onresize = debounce(() => {
-                    data.screenHeight = window.innerHeight || document.body.clientHeight
-                })
-            })
-        })
+                    data.screenHeight =
+                        window.innerHeight || document.body.clientHeight;
+                });
+            });
+        });
         return {
             ...toRefs(data),
         };
@@ -55,6 +69,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .layout {
     width: 100vw;
+    overflow: hidden;
     @include flexDirectionColumn();
     &-main {
         flex: 1;
@@ -62,6 +77,7 @@ export default defineComponent({
         height: calc(100% - 196px);
         overflow-x: hidden;
         overflow-y: auto;
+        box-sizing: border-box;
     }
 }
 </style>

@@ -1,26 +1,37 @@
 <template>
-    <div class="player">
-        <div class="player-title">
-            <div class="goback" @click="gobackFn">
-                <img src="../assets/images/public/left-arrow.png" alt="" />
-            </div>
-            <div>绝对巅峰</div>
-        </div>
+    <div class="l-player">
+        
     </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
-import { useRouter } from 'vue-router';
+import { defineComponent, onMounted } from 'vue';
 export default defineComponent({
     setup() {
-        const router = useRouter();
-        const gobackFn = () => {
-            router.go(-1);
-        }
-        return {
-            gobackFn
-        };
+        onMounted(() => {
+            // const player = new xiaomiPlayer({
+            //     container: document.getElementById('xiaomiplayer'),
+            //     preload: 'none',
+            //     video: {
+            //         url:
+            //             '//sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/hls/xgplayer-demo.m3u8',
+            //         type: 'hls',
+            //     },
+            //     autoplay: true,
+            //     live: true,
+            //     lang: 'zh-cn',
+            //     logo:
+            //         'https://livecdn.hgisuzu.com/image/watermark/20210429/69ebfb6f8569d5769087aa8614c8a370.png',
+            //     logoOptions: {
+            //         width: '200px',
+            //         height: '60px',
+            //         top: '20px',
+            //         left: '20px',
+            //     },
+            // });
+            // data.player = player;
+        });
+        return {};
     },
 });
 </script>
@@ -30,22 +41,5 @@ export default defineComponent({
     width: 100%;
     height: 100%;
     position: relative;
-    &-title {
-        height: 70px;
-        opacity: 0.8;
-        position: relative;
-        @include flexCenter();
-        @include font($size: 30px, $weight: 500, $color: #fff);
-        .goback {
-            width: 66px;
-            height: 100%;
-            @include flexCenter();
-            transform: translateY(-50%);
-            @include position($position: absolute, $top: 50%, $left: 0);
-            img {
-                width: 20px;
-            }
-        }
-    }
 }
 </style>

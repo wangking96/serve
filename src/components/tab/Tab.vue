@@ -65,7 +65,7 @@ export default defineComponent({
         });
         const initTabsFn = () => {
             if (!props.tab || props.tab.length === 0) return;
-            let tabsChilds = tabNav.value.children;
+            let tabsChilds = tabNav.value && tabNav.value.children;
             let left = 0;
             for (let i = 0; i < props.tab.length; i++) {
                 const lineWidth = tabsChilds[i].offsetWidth;
@@ -88,8 +88,9 @@ export default defineComponent({
         };
         return {
             tabNav,
-            ...toRefs(data),
+            initTabsFn,
             tabClickFn,
+            ...toRefs(data),
         };
     },
 });

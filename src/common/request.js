@@ -1,6 +1,6 @@
 import service from "./service";
 const request = ({url = 'api', params, method = 'get', type = 'default'}) => {
-    return new Promise((resolve, inject) => {
+    return new Promise((resolve, reject) => {
         let data = {};
         if(method === 'get') data = { params };
         if(method === 'post') data = { data: params };
@@ -13,7 +13,7 @@ const request = ({url = 'api', params, method = 'get', type = 'default'}) => {
         }).then(res => {
             resolve(res);
         }).catch(err => {
-            inject(err)
+            reject(err)
         })
     })
 }

@@ -1,4 +1,7 @@
 import axios from 'axios';
+import { Toast } from 'vant';
+import store from '../store/index';
+import { matchUrl, defaultUrl } from '../config/index';
 // let message = null;
 // export const getApp=(app)=>{
 //     message = app.config.globalProperties.$message;
@@ -17,17 +20,33 @@ let httpCode = {
     501: "服务器不支持该请求中使用的方法",
     502: "网关错误",
     504: "网关超时",
-}
+} 
 
 service.interceptors.request.use((config) => {
-    config.baseURL = config.type === 'default' ? 'https://liveapi.hskjsj.com' : 'https://sportsapi.hskjsj.com';
+    config.baseURL = config.type === 'default' ? defaultUrl : matchUrl;
     let token = localStorage.getItem('token') || '';
     if (token) config.headers.token = token;
     // config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
     return config;
 })
 service.interceptors.response.use(res => {
-    return res.data.data;
+    const data = res.data.data || '';
+    // if(res.data.ret !== 200) {
+    //     store.commit('SET_USERINFO');
+    //     store.commit('SET_LIVEINFO');
+    //     store.commit('SET_LOGININFO');
+    // }
+    if(data.code === 700) {
+        Toast({
+            message: data.msg,
+            // onClose: () => {
+            //     store.commit('SET_USERINFO');
+            //     store.commit('SET_LIVEINFO');
+            //     store.commit('SET_LOGININFO');
+            // }
+        });
+    }
+    return data;
 })
 
 export default service

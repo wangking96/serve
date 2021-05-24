@@ -1,6 +1,8 @@
 const state = {
+    config: {},
     service: {},
     userInfo: {},
-    loginInfo: {}
+    loginInfo: {},
+    liveInfo: {}
 }
 export default state;

@@ -7,7 +7,8 @@ import {
     Lazyload,
     PullRefresh,
     List,  
-    Loading
+    Loading,
+    Overlay
 } from 'vant';
 
 const coms = [
@@ -19,6 +20,7 @@ const coms = [
     Loading,
     PullRefresh,
     List,
+    Overlay,
     Lazyload
 ]
 

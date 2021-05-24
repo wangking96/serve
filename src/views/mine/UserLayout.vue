@@ -9,7 +9,7 @@
             </div>
             <div class="user-bg-form">
                 <img
-                    src="../../assets/images/public/login-logo.png"
+                    src="../../assets/images/platform/login-logo.png"
                     alt="logo"
                     class="logo"
                 />

@@ -103,7 +103,7 @@ export default defineComponent({
                 border-radius: 100%;
                 background-size: cover;
                 background-repeat: no-repeat;
-                background-image: url('../../assets/images/public/logo.png');
+                background-image: url('../../assets/images/platform/logo.png');
                 img {
                     width: 100%;
                     height: 100%;

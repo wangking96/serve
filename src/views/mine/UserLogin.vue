@@ -45,7 +45,7 @@ import { defineComponent, reactive, toRefs, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import UserLayout from './UserLayout.vue';
-import Loading from '../../components/Loading.vue';
+import Loading from '../../components/PopupLoading.vue';
 import api from '../../api/api';
 import Request from '../../common/request';
 
@@ -107,11 +107,9 @@ export default defineComponent({
                     store.commit('SET_LOGININFO', res.info[0]);
                     Toast({
                         type: 'success',
-                        message: '登录成功!',
-                        onClose: () => {
-                            router.replace('/');
-                        },
+                        message: '登录成功!'
                     });
+                    router.replace('/');
                 }
             }).finally(() => {
                 data.httpStatus = false;
