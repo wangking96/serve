@@ -41,6 +41,7 @@
                                     class="week-item"
                                     v-for="wItem in week"
                                     :key="wItem.id"
+                                    :class="{'active': curWeek.id === wItem.id}"
                                     @click="weekClick(wItem)"
                                 >
                                     <p class="week-item-date">{{ wItem.date }}</p>
@@ -160,7 +161,9 @@ export default defineComponent({
             timeout: null,
             refreshTimeout: null,
             week: [],
-            curWeek: null
+            curWeek: {
+                id: null
+            }
         });
         const tabClick = (args) => {
             args.list = [];
@@ -198,6 +201,7 @@ export default defineComponent({
             } else if(args.id === 4) {
                 data.week = prevWeek();
             }
+            data.curWeek = data.week[0];
             matchFootballFn();
         };
 
@@ -284,7 +288,7 @@ export default defineComponent({
         });
 
         const weekClick = (item) => {
-            console.log(item);
+            data.curWeek = item;
         }
 
         onMounted(() => {
@@ -378,6 +382,12 @@ export default defineComponent({
                 }
                 &-week {
                     color: #a8a8a8;
+                }
+                &.active {
+                    .week-item-date,
+                    .week-item-week {
+                        color: #FF5116;
+                    }
                 }
             }
         }
