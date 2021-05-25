@@ -18,6 +18,10 @@ const routes = [
         name: 'liveRoom',
         component: () => import('../views/liveRoom/index.vue')
     },{
+        path: '/matchLiveRoom',
+        name: 'matchLiveRoom',
+        component: () => import('../views/match/MatchLiveRoom.vue')
+    },{
         path: '/login',
         name: 'login',
         component: () => import('../views/mine/UserLogin.vue')

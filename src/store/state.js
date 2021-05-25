@@ -3,6 +3,7 @@ const state = {
     service: {},
     userInfo: {},
     loginInfo: {},
-    liveInfo: {}
+    liveInfo: {},
+    matchInfo: {}
 }
 export default state;

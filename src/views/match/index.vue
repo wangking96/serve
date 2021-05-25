@@ -202,7 +202,7 @@ export default defineComponent({
                 data.week = prevWeek();
             }
             data.curWeek = data.week[0];
-            matchFootballFn();
+            getMatchFn();
         };
 
         const menuClickFn = (args) => {
@@ -218,13 +218,13 @@ export default defineComponent({
                 data.sendData.params.date = moment(new Date()).format(
                     'YYYY-MM-DD'
                 );
-                matchFootballFn();
+                getMatchFn();
             } else if (data.curMenu.id === 3) {
                 data.sendData.url = 'api';
                 data.sendData.type = 'default';
                 data.sendData.params.date = null;
                 data.sendData.params.service = api.gamingMatchAll;
-                matchFootballFn();
+                getMatchFn();
             }
         };
         const onRefreshFn = () => {
@@ -234,12 +234,12 @@ export default defineComponent({
             data.refreshTimeout = setTimeout(() => {
                 Toast('刷新成功');
                 data.sendData.params.page = 1;
-                matchFootballFn();
+                getMatchFn();
                 data.isDown = false;
                 data.refreshing = false;
             }, 500);
         };
-        const matchFootballFn = async () => {
+        const getMatchFn = async () => {
             data.loading = true;
             const res = await Request(data.sendData);
             if (res.code === 0) {
@@ -282,7 +282,7 @@ export default defineComponent({
                 // console.log('到底了');
                 data.isLoading = true;
                 data.sendData.params.page += 1;
-                matchFootballFn();
+                getMatchFn();
                 data.isLoading = false;
             }
         });
@@ -294,7 +294,7 @@ export default defineComponent({
         onMounted(() => {
             data.curTab = data.tab[0];
             data.sendData.url = api.matchAllList();
-            matchFootballFn();
+            getMatchFn();
         });
 
         onUnmounted(() => {

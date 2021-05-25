@@ -10,6 +10,7 @@ const api = {
     enterLiveRoom: 'Live.EnterRoom',
     liveAnchorRecommend: 'Home.GetRecommendedStream',
     subscribe: 'User.GetSubscribe',
+    subscribeAnchor: 'Home.SubscribeAnchor',
 
     // 用户
     userInfo: 'User.GetBaseInfo',
@@ -25,6 +26,9 @@ const api = {
     // matchListByDate: 'api/v1/football/getMatchListByDate',
 
     // 篮球足球 赛事    1 足球  2 篮球
+    getMatch: (id = 1) => {
+        return `/api/v1/${id === 1 ? 'football' : 'basketball'}/getMatch`;
+    },
     matchAllList: (id = 1) => {
         return `/api/v1/${id === 1 ? 'football' : 'basketball'}/getMatchAllList`;
     },

@@ -1,51 +1,73 @@
 <template>
-   <div class="slider">
-       <div class="slider-item" v-for="s in sliders" :key="s.id">
-           <div class="slider-item-top">
-               <div class="match-type">{{ s.league_cat }}</div>
-               <div class="match-status">{{ s.status == 1 ? '比赛中' : '未开赛'}}</div>
-           </div>
-           <div class="slider-item-middle">
-               <div class="team-logo">
-                   <img :src="s.team_a_logo" alt="" v-if="s.team_a_logo" />
-               </div>
-               <div class="match-time">{{ s.starttime }}</div>
-               <div class="team-logo">
-                   <img :src="s.team_b_logo" alt="" v-if="s.team_b_logo" />
+    <div class="slider">
+        <div
+            class="slider-item"
+            v-for="s in sliders"
+            :key="s.id"
+            @click="jumpMatchLiveRomm(s)"
+        >
+            <div class="slider-item-top">
+                <div class="match-type">{{ s.league_cat }}</div>
+                <div class="match-status">
+                    {{ s.status == 1 ? '比赛中' : '未开赛' }}
                 </div>
-           </div>
-           <div class="slider-item-bottom">{{ s.league_name }}</div>
-       </div>
+            </div>
+            <div class="slider-item-middle">
+                <div class="team-logo">
+                    <img :src="s.team_a_logo" alt="" v-if="s.team_a_logo" />
+                </div>
+                <div class="match-time">{{ s.starttime }}</div>
+                <div class="team-logo">
+                    <img :src="s.team_b_logo" alt="" v-if="s.team_b_logo" />
+                </div>
+            </div>
+            <div class="slider-item-bottom">{{ s.league_name }}</div>
+        </div>
     </div>
 </template>
 
 <script>
-import { defineComponent, onMounted, reactive, toRefs } from "vue";
+import { defineComponent, onMounted, reactive, toRefs } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import api from '../../api/api';
 import Request from '../../common/request';
 export default defineComponent({
     setup() {
+        const store = useStore();
+        const router = useRouter();
         const data = reactive({
-            sliders: []
-        })
-        
+            sliders: [],
+        });
+
+        const jumpMatchLiveRomm = (item) => {
+            store.commit('SET_MATCHINFO', item);
+            router.push({
+                path: '/matchLiveRoom',
+                query: {
+                    id: item.match_id
+                }
+            })
+        };
+
         onMounted(() => {
             Request({
                 params: {
                     service: api.slide,
                 },
             }).then((res) => {
-                if(res.code === 0 && res.info) {
-                    data.sliders = res.info[0].list
+                if (res.code === 0 && res.info) {
+                    data.sliders = res.info[0].list;
                 }
             });
-        })
+        });
 
         return {
-            ...toRefs(data)
-        }
+            ...toRefs(data),
+            jumpMatchLiveRomm,
+        };
     },
-})
+});
 </script>
 
 <style lang="scss" scoped>
@@ -73,7 +95,7 @@ export default defineComponent({
             margin-left: 0;
         }
         &-top {
-            padding: 0 10px;
+            padding: 0 6px;
             box-sizing: border-box;
             @include flexBetween();
             .match-type {
@@ -112,7 +134,12 @@ export default defineComponent({
             }
         }
         &-bottom {
-            @include font($size: 22px, $weight: 400, $color: #2b2626, $center: center);
+            @include font(
+                $size: 22px,
+                $weight: 400,
+                $color: #2b2626,
+                $center: center
+            );
         }
     }
 }

@@ -14,5 +14,8 @@ const mutations = {
     SET_LIVEINFO: (state, data = {}) => {
         state.liveInfo = data;
     },
+    SET_MATCHINFO: (state, data = {}) => {
+        state.matchInfo = data;
+    }
 }
 export default mutations;

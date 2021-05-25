@@ -45,6 +45,7 @@ export default defineComponent({
         const router = useRouter();
        
         const goToLiveRoomFn = (item) => {
+            store.commit('SET_MATCHINFO', {});
             store.commit('SET_LIVEINFO', item);
             router.push({
                 path: '/liveRoom',

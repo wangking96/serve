@@ -1,22 +1,12 @@
 <template>
     <Layout :navbar="true" :showBack="true">
-        <div class="live-room">
-            <div class="live-room-player">
-                <div class="live-room-player-title">
-                    <div class="live-room-player-title-main">
-                        <div class="goback" @click="gobackFn">
-                            <img
-                                src="../../assets/images/public/left-arrow.png"
-                            />
-                        </div>
-                        <div>{{ liveInfo.title }}</div>
-                    </div>
-                </div>
-                <div class="live-room-player-main">
+        <div class="live-broadcast">
+            <div class="live-broadcast-play">
+                <PlayerArea :title="liveInfo.title">
                     <Player />
-                </div>
+                </PlayerArea>
             </div>
-            <div class="live-room-tab">
+            <div class="live-broadcast-tab">
                 <tab :tab="tab" :active="curTab.id" @clickFn="tabClick">
                     <tab-panel class="live-room-tab-item">
                         <ChatRoom
@@ -36,6 +26,7 @@
                         <LiveInfo
                             v-if="curTab.com === 'LiveInfo'"
                             :liveInfo="liveData"
+                            @refresh="refreshFn"
                         />
                     </tab-panel>
                 </tab>
@@ -61,6 +52,7 @@ import Layout from '../../components/Layout.vue';
 import Tab from '../../components/tab/Tab.vue';
 import TabPanel from '../../components/tab/TabPanel.vue';
 import Player from '../../components/Player.vue';
+import PlayerArea from '../../components/PlayerArea.vue';
 import AnchorInfo from './AnchorInfo.vue';
 import LiveInfo from './LiveInfo.vue';
 import ChatRoom from './ChatRoom.vue';
@@ -71,12 +63,13 @@ import { Toast, Dialog } from 'vant';
 export default defineComponent({
     components: {
         Layout,
-        Player,
         Tab,
         TabPanel,
         AnchorInfo,
         LiveInfo,
         ChatRoom,
+        Player,
+        PlayerArea
     },
     setup() {
         const route = useRoute();
@@ -106,7 +99,7 @@ export default defineComponent({
             countdown: 0,
             countdownTimer: null,
         });
-        const getLiveInfoFn = () => {
+        const getLiveInfoFn = (bool) => {
             Request({
                 params: {
                     uid: loginInfo.value.id || '',
@@ -116,17 +109,17 @@ export default defineComponent({
                 },
             }).then((res) => {
                 if (res.code === 0) {
-                    createChatRoomFn();
                     data.liveData = res.info[0];
                     data.contract = res.info[0].contract.filter(
                         (item) => item.status != 0
                     );
+                    bool && enterLiveRoomFn(res.info[0]);
                 }
             });
         };
 
-        const gobackFn = () => {
-            router.go(-1);
+        const refreshFn = () => {
+            getLiveInfoFn();
         };
 
         const tabClick = (tab) => {
@@ -154,28 +147,28 @@ export default defineComponent({
                         title: '温馨提示',
                         message: args.msg,
                     })
-                    .then(() => {
-                        router.push({
-                            path: '/login',
-                            query: {
-                                back: 1,
-                            },
+                        .then(() => {
+                            router.push({
+                                path: '/login',
+                                query: {
+                                    back: 1,
+                                },
+                            });
+                        })
+                        .catch(() => {
+                            // on cancel
                         });
-                    })
-                    .catch(() => {
-                        // on cancel
-                    });
                 },
             },
         };
         // 进入聊天室
-        const enterLiveRoomFn = async () => {
+        const enterLiveRoomFn = async (params) => {
             const res = await Request({
                 params: {
                     uid: loginInfo.value.id || '',
                     token: loginInfo.value.token || '',
-                    stream: data.liveData.stream || '',
-                    liveuid: data.liveData.uid || '',
+                    stream: params.stream || '',
+                    liveuid: params.uid || '',
                     device: 3, // H5
                     service: api.enterLiveRoom,
                 },
@@ -191,12 +184,11 @@ export default defineComponent({
                     // ws.close();
                 } else {
                     data.chatRoomOpening = true;
-                    // createChatRoomFn();
+                    createChatRoomFn();
                 }
+            } else {
+                Toast('进入房间失败！');
             }
-            // else {
-            //     Toast('进入房间失败！');
-            // }
         };
         // 创建聊天室房间
         const createChatRoomFn = () => {
@@ -244,13 +236,12 @@ export default defineComponent({
 
         watchEffect(() => {
             if (route.query.id) {
-                getLiveInfoFn();
+                getLiveInfoFn(true);
             }
         });
 
         onMounted(() => {
             data.curTab = data.tab[1];
-            enterLiveRoomFn();
         });
 
         onBeforeUnmount(() => {
@@ -259,57 +250,19 @@ export default defineComponent({
         });
 
         return {
+            refreshFn,
             liveInfo,
-            ...toRefs(data),
-            gobackFn,
             tabClick,
+            ...toRefs(data),
         };
     },
 });
 </script>
 
 <style lang="scss" scoped>
-.live-room {
+.live-broadcast {
     width: 100%;
     height: 100%;
-    &-player {
-        width: 100%;
-        height: 462px;
-        overflow: hidden;
-        position: relative;
-        background-color: #333;
-        &-title {
-            width: 100%;
-            height: 70px;
-            opacity: 0.8;
-            @include position(
-                $position: absolute,
-                $top: 0,
-                $left: 0,
-                $zIndex: 99
-            );
-            &-main {
-                width: 100%;
-                height: 100%;
-                @include flexCenter();
-                @include font($size: 30px, $weight: 500, $color: #fff);
-                .goback {
-                    width: 66px;
-                    height: 100%;
-                    @include flexCenter();
-                    transform: translateY(-50%);
-                    @include position($position: absolute, $top: 50%, $left: 0);
-                    img {
-                        width: 20px;
-                    }
-                }
-            }
-        }
-        &-main {
-            width: 100%;
-            height: 100%;
-        }
-    }
     &-tab {
         width: 100%;
         height: calc(100% - 462px);

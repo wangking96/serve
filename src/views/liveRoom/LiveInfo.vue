@@ -15,7 +15,11 @@
                         <p class="hot">{{ liveInfo.viewnum }}</p>
                     </div>
                 </div>
-                <div class="live-info-anchor-right" :class="{'subscribed': liveInfo.isSubscribe != 0}">
+                <div
+                    class="live-info-anchor-right"
+                    :class="{ subscribed: liveInfo.isSubscribe != 0 }"
+                    @click="subscribeAnchor"
+                >
                     {{ liveInfo.isSubscribe == 0 ? '订阅' : '已订阅' }}
                 </div>
             </div>
@@ -24,7 +28,7 @@
                 <div class="live-info-notice-desc">主播很低调什么也没留下</div>
             </div>
         </div>
-        
+
         <div class="live-info-anchor-recommend">
             <AnchorRecommend :anchor="anchor" />
         </div>
@@ -37,9 +41,10 @@ import AnchorRecommend from '../../components/AnchorRecommend.vue';
 import api from '../../api/api';
 import Request from '../../common/request';
 import { useStore } from 'vuex';
+import { Toast } from 'vant';
 export default defineComponent({
     components: {
-        AnchorRecommend
+        AnchorRecommend,
     },
     props: {
         liveInfo: {
@@ -47,34 +52,59 @@ export default defineComponent({
             default: {},
         },
     },
-    setup() {
+    setup(props, { emit }) {
         const store = useStore();
         const userInfo = computed(() => store.state.userInfo);
+        const loginInfo = computed(() => store.state.loginInfo);
         const data = reactive({
-            anchor: []
-        })
+            anchor: [],
+            httpStatus: false,
+        });
         const getRecommendedStream = () => {
-             Request({
+            Request({
                 params: {
-                    limit: '4',                     //每页记录数
-                    p: '1',                         //页数
-                    field: 'recom_sort',            //可排序字段，支持 recom_sort, starttime
-                    order: 'random',                //排序，asc, desc, random
+                    limit: '4', //每页记录数
+                    p: '1', //页数
+                    field: 'recom_sort', //可排序字段，支持 recom_sort, starttime
+                    order: 'random', //排序，asc, desc, random
                     uid: userInfo.value.id || '',
                     token: userInfo.value.token || '',
                     service: api.liveAnchorRecommend,
                 },
             }).then((res) => {
-                if(res.code === 0) {
+                if (res.code === 0) {
                     data.anchor = res.info;
                 }
             });
-        }
+        };
+        const subscribeAnchor = async () => {
+            if (data.httpStatus) return;
+            data.httpStatus = true;
+            const res = await Request({
+                params: {
+                    touid: props.liveInfo.uid,
+                    type: props.liveInfo.isSubscribe === 0 ? 1 : 2,
+                    uid: loginInfo.value.id,
+                    token: loginInfo.value.token,
+                    service: api.subscribeAnchor,
+                },
+            });
+
+            if (res.code === 0) {
+                Toast({
+                    type: 'success',
+                    message: res.msg,
+                });
+                emit('refresh');
+            }
+            data.httpStatus = false;
+        };
         onMounted(() => {
             getRecommendedStream();
-        })
+        });
         return {
-            ...toRefs(data)
+            subscribeAnchor,
+            ...toRefs(data),
         };
     },
 });
