@@ -8,7 +8,7 @@
             </div>
             <div class="live-broadcast-tab">
                 <tab :tab="tab" :active="curTab.id" @clickFn="tabClick">
-                    <tab-panel class="live-room-tab-item">
+                    <tab-panel class="live-broadcast-tab-item">
                         <ChatRoom
                             v-if="curTab.com === 'ChatRoom'"
                             :chatRecords="chatRecords"
@@ -16,13 +16,13 @@
                             ref="chatRoom"
                         />
                     </tab-panel>
-                    <tab-panel class="live-room-tab-item">
+                    <tab-panel class="live-broadcast-tab-item">
                         <AnchorInfo
                             v-if="curTab.com === 'AnchorInfo'"
                             :contract="contract"
                         />
                     </tab-panel>
-                    <tab-panel class="live-room-tab-item">
+                    <tab-panel class="live-broadcast-tab-item">
                         <LiveInfo
                             v-if="curTab.com === 'LiveInfo'"
                             :liveInfo="liveData"
@@ -263,6 +263,10 @@ export default defineComponent({
 .live-broadcast {
     width: 100%;
     height: 100%;
+    &-play {
+        width: 100%;
+        height: 462px;
+    }
     &-tab {
         width: 100%;
         height: calc(100% - 462px);

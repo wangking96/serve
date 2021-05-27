@@ -138,7 +138,7 @@ export default defineComponent({
                 margin-right: 24px;
                 border-radius: 50%;
                 @include bg();
-                background-image: url('../../assets/images/live/avatar-default.png');
+                background-image: url('/images/live/avatar-default.png');
                 img {
                     width: 100%;
                     display: block;
@@ -159,7 +159,7 @@ export default defineComponent({
                     height: 32px;
                     @include bg();
                     margin-right: 6px;
-                    background-image: url('../../assets/images/public/hot.png');
+                    background-image: url('/images/common/hot.png');
                 }
             }
         }
@@ -193,7 +193,7 @@ export default defineComponent({
                 object-fit: cover;
                 @include bg();
                 margin-right: 8px;
-                background-image: url('../../assets/images/public/notice.png');
+                background-image: url('/images/common/notice.png');
             }
         }
         &-desc {

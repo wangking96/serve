@@ -71,3 +71,12 @@ export const encrypt = (obj) => {
     str += '76576076c1f5f657b634e966c8836a06';
     return str;
 }
+export const appSource = () => {
+    const u = navigator.userAgent;
+    const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+    if (isiOS) {
+        return "ios";
+    } else {
+        return "andriod";
+    }
+}

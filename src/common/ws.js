@@ -22,6 +22,7 @@ const ws = {
     },
     onopen(){
         this.websocket.onopen = () => {
+            if(this.isConnection) return;
             console.log('connection success!!!');
             clearInterval(this.connectionTimer);
             this.isConnection = true;
@@ -55,7 +56,9 @@ const ws = {
         console.log('---发送heartbeat消息响应----');
     },
     send(args){
-        this.websocket && this.websocket.send(args);
+        if(this.websocket && this.websocket.readyState === 1) {
+            this.websocket.send(args);
+        }
     },
     close() {
         if(this.websocket) {

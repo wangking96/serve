@@ -2,45 +2,49 @@
     <div
         class="live-player-area"
         :class="[
-            { football: matchInfo.match_type === 3 },
-            { basketball: matchInfo.match_type === 2 },
+            { football: matchId === 1 },
+            { basketball: matchId === 2 },
         ]"
     >
         <div class="live-player-area-title">
             <div class="live-player-area-title-main">
                 <div class="goback" @click="gobackFn">
-                    <img src="../assets/images/public/left-arrow.png" />
+                    <img src="/images/common/left-arrow.png" />
                 </div>
-                <div>{{ title }}</div>
+                <div>{{ title || matchInfo.league && (matchId === 1 ? matchInfo.league.leagueNameCn : matchInfo.league.leagueNameCnShort) }}</div>
             </div>
         </div>
 
-        <div class="live-player-area-match">
+        <div class="live-player-area-match" v-if="type === 'match'">
             <div class="live-player-area-match-title">
                 {{
-                    match.matchStartTime &&
-                    matchTimeFn(match.matchStartTime * 1000)
+                    matchInfo.matchStartTime &&
+                    matchTimeFn(matchInfo.matchStartTime * 1000)
                 }}
-                {{ match.state_str }}
+                {{ matchInfo.state_str }}
             </div>
             <div class="live-player-area-match-main">
                 <div class="live-player-area-match-main-left">
-                    <img
-                        v-if="match.home_team.logo"
-                        :src="match.home_team.logo"
-                    />
-                    <p>{{ match.home_team.nameCn }}</p>
+                    <div :style="`background-image: url('/images/platform/${platform}/logo-default.png');`">
+                        <img
+                            v-if="matchInfo.home_team && matchInfo.home_team.logo"
+                            :src="matchInfo.home_team && matchInfo.home_team.logo"
+                        />
+                    </div>
+                    <p>{{ matchInfo.home_team && matchInfo.home_team.nameCn }}</p>
                 </div>
                 <div class="live-player-area-match-main-middle">
-                    <p>vs</p>
-                    <p>{{ matchStatusFn(match.is_playing) }}</p>
+                    <div class="vs">vs</div>
+                    <p>{{ matchStatusFn(matchInfo.is_playing) }}</p>
                 </div>
                 <div class="live-player-area-match-main-right">
-                    <img
-                        v-if="match.away_team.logo"
-                        :src="match.away_team.logo"
-                    />
-                    <p>{{ match.away_team.nameCn }}</p>
+                    <div :style="`background-image: url('/images/platform/${platform}/logo-default.png');`">
+                        <img
+                            v-if="matchInfo.away_team && matchInfo.away_team.logo"
+                            :src="matchInfo.away_team && matchInfo.away_team.logo"
+                        />
+                    </div>
+                    <p>{{ matchInfo.away_team && matchInfo.away_team.nameCn }}</p>
                 </div>
             </div>
         </div>
@@ -52,7 +56,7 @@
 </template>
 
 <script>
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, reactive, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import moment from 'moment';
@@ -63,16 +67,19 @@ export default defineComponent({
             type: String,
             default: '',
         },
-        match: {
-            type: Object,
-            default: {},
+        type: {
+            type: String,
+            default: '',
         },
+        matchId: Number
     },
     setup(props) {
         const store = useStore();
         const router = useRouter();
         const matchInfo = computed(() => store.state.matchInfo);
-
+        const data = reactive({
+            platform: import.meta.env.MODE
+        })
         const gobackFn = () => {
             router.go(-1);
         };
@@ -93,6 +100,7 @@ export default defineComponent({
             matchInfo,
             matchTimeFn,
             matchStatusFn,
+            ...toRefs(data)
         };
     },
 });
@@ -102,16 +110,16 @@ export default defineComponent({
 .live {
     &-player-area {
         width: 100%;
-        height: 462px;
+        height: 100%;
         @include bg();
         overflow: hidden;
         position: relative;
         background-color: #333;
         &.football {
-            background-image: url('../assets/images/live/football-bg.png');
+            background-image: url('/images/live/football-bg.png');
         }
         &.basketball {
-            background-image: url('../assets/images/live/basketball-bg.png');
+            background-image: url('/images/live/basketball-bg.png');
         }
         &-title {
             width: 100%;
@@ -149,6 +157,7 @@ export default defineComponent({
                 $zIndex: 99
             );
             &-title {
+                margin-bottom: 64px;
                 @include font(
                     $size: 24px,
                     $weight: 500,
@@ -158,13 +167,42 @@ export default defineComponent({
             }
             &-main {
                 @include flexBetween();
-                div {
-                    flex: 1;
-                    @include font($size: 24px, $color: #fff, $center: center);
-                }
-            }
-            &-main {
                 box-sizing: border-box;
+                &-left,
+                &-middle,
+                &-right {
+                    flex: 1;
+                    text-align: center;
+                    div {
+                        height: 104px;
+                        margin-bottom: 40px;
+                    }
+                    p {
+                        @include font($size: 28px, $color: #fff, $center: center);
+                    }
+                }
+                &-left,
+                &-right {
+                    div {
+                        width: 104px;
+                        margin: 0 auto 40px;
+                        border-radius: 50%;
+                        overflow: hidden;
+                        @include bg();
+                        img {
+                            width: 100%;
+                            display: block;
+                        }
+                    }
+                }
+                &-middle {
+                    .vs {
+                        height: 104px;
+                        padding-top: 20px;
+                        box-sizing: border-box;
+                        @include font($size: 54px, $weight: 600, $color: #fff);
+                    }
+                }
             }
         }
         &-main {

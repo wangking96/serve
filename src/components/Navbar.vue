@@ -1,8 +1,8 @@
 <template>
-    <div class="navbar" :class="{'flex-center': type !== 'default'}">
+    <div class="navbar" :class="{ 'flex-center': type !== 'default' }">
         <template v-if="type === 'default'">
             <img
-                src="../assets/images/platform/navbar-logo.png"
+                :src="`/images/platform/${platform}/navbar-logo.png`"
                 alt="logo"
                 class="logo"
             />
@@ -10,21 +10,28 @@
                 <div class="btn go-back" v-if="showBack" @click="goToHomeFn">
                     返回首页
                 </div>
-                <a class="btn download" href="" target="_blank">下载APP</a>
+                <a
+                    class="btn download"
+                    :href="appSource === 'ios' ? config.ipa_url : config.apk_url"
+                    :target="appSource === 'ios' ? '_blank' : ''"
+                    >下载APP</a
+                >
             </div>
         </template>
         <template v-else>
             <div class="back-last-page" @click="backFn">
-                <img src="../assets/images/mine/arrow-left.png" alt="">
+                <img src="/images/mine/arrow-left.png" alt="" />
             </div>
-            <div class="navbar-title">{{title}}</div>
+            <div class="navbar-title">{{ title }}</div>
         </template>
     </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { computed, defineComponent, reactive, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import { appSource } from '../common/tools';
 export default defineComponent({
     props: {
         showBack: {
@@ -41,16 +48,26 @@ export default defineComponent({
         },
     },
     setup() {
+        const store = useStore();
         const router = useRouter();
+        const config = computed(() => store.state.config);
+
+        const data = reactive({
+            appSource: appSource(),
+            platform: import.meta.env.MODE,
+        });
         const backFn = () => {
             router.go(-1);
         };
         const goToHomeFn = () => {
             router.push('/');
         };
+
         return {
             backFn,
             goToHomeFn,
+            config,
+            ...toRefs(data),
         };
     },
 });
@@ -111,7 +128,7 @@ export default defineComponent({
             }
         }
         .navbar-title {
-            @include font($size: 34px, $color: #323232FF);
+            @include font($size: 34px, $color: #323232ff);
         }
     }
 }

@@ -47,6 +47,18 @@ service.interceptors.response.use(res => {
         });
     }
     return data;
+}, err => {
+    console.log(err.response)
+    // if (err.response.status === 404) {
+    //     Toast.fail('404:' + err.response.statusText)
+    //     return Promise.reject(err)
+    // }
+    // if (err.response.status === 500) {
+    //     Toast.fail('Error of server')
+    //     return Promise.reject(err)
+    // }
+    // Toast.fail(err.message)
+    return Promise.reject(err)
 })
 
 export default service

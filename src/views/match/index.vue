@@ -36,21 +36,25 @@
                             class="match-date"
                             v-if="[3, 4].includes(curTab.id)"
                         >
-                            <div class="week">
+                            <div class="week" ref="weekDom">
                                 <div
                                     class="week-item"
-                                    v-for="wItem in week"
+                                    v-for="(wItem, index) in week"
                                     :key="wItem.id"
-                                    :class="{'active': curWeek.id === wItem.id}"
-                                    @click="weekClick(wItem)"
+                                    :class="{ active: curWeek.id === wItem.id }"
+                                    @click="weekClick(wItem, index)"
                                 >
-                                    <p class="week-item-date">{{ wItem.date }}</p>
-                                    <p class="week-item-week">{{ wItem.week }}</p>
+                                    <p class="week-item-date">
+                                        {{ wItem.date }}
+                                    </p>
+                                    <p class="week-item-week">
+                                        {{ wItem.week }}
+                                    </p>
                                 </div>
                             </div>
-                            <div class="calendar">
+                            <div class="calendar" @click="showDateFn">
                                 <img
-                                    src="../../assets/images/match/date.png"
+                                    src="/images/match/date.png"
                                     alt=""
                                 />
                             </div>
@@ -61,15 +65,15 @@
                             v-if="curTab.list.length > 0"
                         >
                             <template v-for="l in curTab.list" :key="l.id">
-                                <MatchItem :item="l" />
+                                <MatchItem :item="l" @click="jumpMatchLiveRoomFn(l)" />
                             </template>
                             <div class="nomore" v-if="showMore">没有更多了</div>
-                            <MatchLoading v-else />
+                            <Loading v-else />
                         </div>
-                        <MatchLoading v-if="loading" />
+                        <Loading v-if="loading" />
                         <div class="match-nodata" v-if="curTab.list.length < 1">
                             <img
-                                src="../../assets/images/public/nodata.png"
+                                src="/images/common/nodata.png"
                                 alt=""
                             />
                             <div>暂无数据</div>
@@ -77,6 +81,15 @@
                     </van-pull-refresh>
                 </TabPanel>
             </Tab>
+            <van-calendar
+                class="my-calendar"
+                v-model:show="showDate"
+                row-height="34"
+                color="#FF865C"
+                :min-date="minDate"
+                :max-date="maxDate"
+                @confirm="onConfirm"
+            />
         </div>
     </Layout>
 </template>
@@ -87,19 +100,21 @@ import {
     onMounted,
     onUnmounted,
     reactive,
+    ref,
     toRefs,
 } from 'vue';
 import { Toast } from 'vant';
 import Layout from '@/components/Layout.vue';
 import Tab from '../../components/tab/Tab.vue';
 import TabPanel from '../../components/tab/TabPanel.vue';
-import MatchLoading from './MatchLoading.vue';
+import Loading from '../../components/Loading.vue';
 import MatchItem from './MatchItem.vue';
 
 import moment from 'moment';
 import api from '../../api/api';
 import Request from '../../common/request';
 import { prevWeek, nextWeek, debounce } from '../../common/tools';
+import { useRouter } from 'vue-router';
 
 // 比赛接口
 const ballMatchApiUrl = {
@@ -108,16 +123,16 @@ const ballMatchApiUrl = {
     3: 'matchListByDate',
     4: 'matchListByDate',
 };
-
 export default defineComponent({
     components: {
         Tab,
         Layout,
         TabPanel,
         MatchItem,
-        MatchLoading,
+        Loading,
     },
     setup() {
+        const router = useRouter();
         const data = reactive({
             menus: [
                 { id: 1, name: '足球' },
@@ -162,10 +177,15 @@ export default defineComponent({
             refreshTimeout: null,
             week: [],
             curWeek: {
-                id: null
-            }
+                id: null,
+            },
+            weekDom: ref(null),
+            showDate: false,
+            minDate: new Date(),
+            maxDate: new Date(),
         });
         const tabClick = (args) => {
+            let today = moment().date();
             args.list = [];
             data.sendData.params.page = 1;
             data.curTab = args;
@@ -196,23 +216,30 @@ export default defineComponent({
                         ? api.gamingMatchAll
                         : api.gameingMatchListByStat;
             }
-            if(args.id === 3){
+            if (args.id === 3) {
                 data.week = nextWeek();
-            } else if(args.id === 4) {
+                data.minDate = moment().toDate();
+                data.maxDate = moment()
+                    .date(today + 13)
+                    .toDate();
+            } else if (args.id === 4) {
                 data.week = prevWeek();
+                data.maxDate = moment().toDate();
+                data.minDate = moment()
+                    .date(today - 13)
+                    .toDate();
             }
             data.curWeek = data.week[0];
+
             getMatchFn();
         };
 
         const menuClickFn = (args) => {
             data.curTab.list = [];
             data.curMenu = args;
-            const el = document.querySelectorAll('.tab-nav-item');
-            const firstEl = el && el[0];
-            firstEl.click();
             if ([1, 2].includes(data.curMenu.id) && data.curTab.id === 1) {
                 data.sendData.type = 'match';
+                data.sendData.params.qdate = null;
                 data.sendData.params.service = null;
                 data.sendData.url = api.matchAllList(data.curMenu.id);
                 data.sendData.params.date = moment(new Date()).format(
@@ -226,6 +253,9 @@ export default defineComponent({
                 data.sendData.params.service = api.gamingMatchAll;
                 getMatchFn();
             }
+            const el = document.querySelectorAll('.tab-nav-item');
+            const firstEl = el && el[0];
+            firstEl.click();
         };
         const onRefreshFn = () => {
             data.curTab.list = [];
@@ -287,8 +317,48 @@ export default defineComponent({
             }
         });
 
-        const weekClick = (item) => {
+        const weekClick = (item, index, time) => {
+            const year = moment().format('YYYY') + '-';
             data.curWeek = item;
+            const curWeek = data.weekDom.children[index];
+            const moveTo =
+                curWeek.offsetLeft -
+                (data.weekDom.offsetWidth - curWeek.offsetWidth) / 2;
+            data.weekDom.scrollTo({
+                top: 0,
+                left: moveTo,
+                behavior: 'smooth',
+            });
+            if ([1, 2].includes(data.curMenu.id)) { 
+                data.sendData.params.qdate = null;
+                data.sendData.params.date = time || year + data.curWeek.date;
+            } else if (data.curTab.id === 3) {
+                data.sendData.params.date = null;
+                data.sendData.params.qdate = time || year + data.curWeek.date;
+            }
+            data.curTab.list = [];
+            getMatchFn();
+        };
+        const onConfirm = (time) => {
+            const newTime = moment(time).format('YYYY-MM-DD');
+            data.week.forEach((item, index) => {
+                if(item.date === moment(time).format('MM-DD')) {
+                    weekClick(item, index, newTime);
+                }
+            });
+            data.showDate = false;
+        };
+        const showDateFn = () => {
+            data.showDate = !data.showDate;
+        };
+        const jumpMatchLiveRoomFn = (item) => {
+            router.push({
+                path: '/matchLiveRoom',
+                query: {
+                    id: item.matchId,
+                    matchId: data.curMenu.id,
+                }
+            })
         }
 
         onMounted(() => {
@@ -308,6 +378,9 @@ export default defineComponent({
             menuClickFn,
             onRefreshFn,
             weekClick,
+            onConfirm,
+            showDateFn,
+            jumpMatchLiveRoomFn,
             ...toRefs(data),
         };
     },
@@ -378,7 +451,7 @@ export default defineComponent({
                 box-sizing: border-box;
                 @include flexColumnCenter();
                 &-date {
-                    color: #2B2626;
+                    color: #2b2626;
                 }
                 &-week {
                     color: #a8a8a8;
@@ -386,7 +459,7 @@ export default defineComponent({
                 &.active {
                     .week-item-date,
                     .week-item-week {
-                        color: #FF5116;
+                        color: #ff5116;
                     }
                 }
             }
@@ -434,6 +507,18 @@ export default defineComponent({
     .van-pull-refresh__track {
         width: 100%;
         height: 100%;
+    }
+}
+.match {
+    .my-calendar {
+        height: 60%;
+        transition: transform .2s;
+        border-radius: 16px 16px 0 0;
+    }
+    .van-calendar__header-title,
+    .van-calendar__header-subtitle {
+        height: 60px;
+        line-height: 60px;
     }
 }
 </style>

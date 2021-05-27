@@ -4,7 +4,7 @@
             <div class="anchor-recommend-title-icon"></div>
             <div class="anchor-recommend-title-text">推荐直播</div>
         </div>
-        <div class="anchor-recommend-list">
+        <div class="anchor-recommend-list" v-if="anchor.length > 0">
             <div
                 class="anchor-recommend-item"
                 v-for="item in anchor"
@@ -15,7 +15,7 @@
                     @click="goToLiveRoomFn(item)"
                 >
                     <div class="living"></div>
-                    <img :src="item.thumb" alt="" />
+                    <img v-lazy="item.thumb" alt="" />
                 </div>
                 <div class="anchor-recommend-item-title ovh">
                     {{ item.title }}
@@ -26,32 +26,43 @@
                 </div>
             </div>
         </div>
+        <div class="nodata" v-else>
+            <img src="/images/common/no-data.png" alt="" />
+            <p>主播正在路上，下载app更多超清比赛</p>
+        </div>
     </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import ws from '../common/ws';
 export default defineComponent({
     props: {
         anchor: {
             type: Array,
-            default: []
+            default: [],
+        },
+        source: {
+            type: String,
+            default: ''
         }
     },
-    setup() {
+    setup(props) {
         const store = useStore();
         const router = useRouter();
-       
+        const liveInfo = computed(() => store.state.liveInfo);
+
         const goToLiveRoomFn = (item) => {
-            store.commit('SET_MATCHINFO', {});
+            if(item.uid === liveInfo.value.uid && !props.source) return;
             store.commit('SET_LIVEINFO', item);
+            ws.close();
             router.push({
                 path: '/liveRoom',
                 query: {
-                    id: item.uid
-                }
+                    id: item.uid,
+                },
             });
         };
         return {
@@ -74,7 +85,7 @@ export default defineComponent({
             height: 43px;
             @include bg();
             margin-right: 14px;
-            background-image: url('../assets/images/public/hot.png');
+            background-image: url('/images/common/hot.png');
         }
         &-text {
             @include font($size: 30px, $weight: 500, $color: #000);
@@ -96,7 +107,7 @@ export default defineComponent({
                 width: 40px;
                 height: 40px;
                 @include bg();
-                background-image: url('../assets/images/public/living.webp');
+                background-image: url('/images/common/living.webp');
                 @include position($position: absolute, $top: 4px, $right: 8px);
             }
             img {
@@ -128,9 +139,20 @@ export default defineComponent({
                     @include bg();
                     display: block;
                     margin-right: 6px;
-                    background-image: url('../assets/images/public/hot.png');
+                    background-image: url('/images/common/hot.png');
                 }
             }
+        }
+    }
+    .nodata {
+        width: 100%;
+        img {
+            width: 600px;
+            margin: auto;
+            display: block;
+        }
+        p {
+            @include font($size: 30px, $weight: 500, $color: #000, $center: center);
         }
     }
 }

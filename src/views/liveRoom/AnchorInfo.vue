@@ -5,8 +5,8 @@
                 <div class="anchor-info-contract-item" v-for="cItem in contract" :key="cItem.id">
                 <div class="anchor-info-contract-item-left">
                     <div class="icon">
-                        <img src="../../assets/images/live/QQ.png" alt="" v-if="cItem.type == 1"/>
-                        <img src="../../assets/images/live/WeChat.png" alt="" v-else />
+                        <img src="/images/live/QQ.png" alt="" v-if="cItem.type == 1"/>
+                        <img src="/images/live/WeChat.png" alt="" v-else />
                     </div>
                     <div class="contract">
                         <p class="type">主播{{cItem.type == 1 ? 'QQ' : '微信'}}</p>
@@ -17,7 +17,7 @@
             </div>
             </template>
             <div class="nodata" v-else>
-                <img src="../../assets/images/public/no-data.png" alt="">
+                <img src="/images/common/no-data.png" alt="">
                 <p>暂无主播联系方式，下载app更多超清比赛!</p>
             </div>
        </div>

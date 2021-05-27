@@ -41,11 +41,12 @@ export default defineComponent({
         });
 
         const jumpMatchLiveRomm = (item) => {
-            store.commit('SET_MATCHINFO', item);
+            const matchId = item.match_type === 3 ? 1 : 2
             router.push({
                 path: '/matchLiveRoom',
                 query: {
-                    id: item.match_id
+                    matchId,
+                    id: item.match_id,
                 }
             })
         };
@@ -125,7 +126,7 @@ export default defineComponent({
                 border-radius: 100%;
                 background-size: cover;
                 background-repeat: no-repeat;
-                background-image: url('../../assets/images/platform/logo.png');
+                background-image: url('/images/platform/fengxin/logo.png');
                 img {
                     width: 100%;
                     height: 100%;

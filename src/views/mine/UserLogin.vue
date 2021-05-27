@@ -94,26 +94,28 @@ export default defineComponent({
         const loginFn = (params) => {
             Request({
                 params,
-            }).then((res) => {
-                if (res.code === 1001) {
-                    Toast({
-                        icon: 'warning-o',
-                        message: res.msg,
-                        className: 'my-loading',
-                    });
-                    return;
-                }
-                if (res.code === 0) {
-                    store.commit('SET_LOGININFO', res.info[0]);
-                    Toast({
-                        type: 'success',
-                        message: '登录成功!'
-                    });
-                    router.replace('/');
-                }
-            }).finally(() => {
-                data.httpStatus = false;
-            });
+            })
+                .then((res) => {
+                    if (res.code === 1001) {
+                        Toast({
+                            icon: 'warning-o',
+                            message: res.msg,
+                            className: 'my-loading',
+                        });
+                        return;
+                    }
+                    if (res.code === 0) {
+                        store.commit('SET_LOGININFO', res.info[0]);
+                        Toast({
+                            type: 'success',
+                            message: '登录成功!',
+                        });
+                        router.replace('/');
+                    }
+                })
+                .finally(() => {
+                    data.httpStatus = false;
+                });
         };
 
         const changRouterFn = (path) => {
@@ -138,7 +140,4 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.login {
-    // #ab747487
-}
 </style>

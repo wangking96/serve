@@ -6,11 +6,14 @@
             </div>
             <div
                 class="chat-room-item"
-                :class="{ 'welcome': item.type === 'come' }"
+                :class="{ welcome: item.type === 'come' }"
                 v-for="(item, index) in chatRecords"
                 :key="item.type + index"
             >
-                <span class="icon">
+                <span
+                    class="icon"
+                    :style="`background-image: url('/images/platform/${platform}/logo.png');`"
+                >
                     <img
                         :src="userInfo.avatar_thumb || loginInfo.avatar_thumb"
                         v-if="userInfo.avatar_thumb || loginInfo.avatar_thumb"
@@ -47,13 +50,15 @@
             <div class="nologin" @click="goToLogin" v-else>
                 <span>登录</span>发弹幕，参与主播互动
             </div>
-            <div
-                class="btn"
-                :class="loginInfo.token ? 'can-send-btn' : 'no-send-btn'"
-                @click="sendMsgFn"
-            >
-                <div v-if="countdown > 0">{{countdown}}s</div>
-                <div v-else class="icon"></div>
+            <div class="btn" @click="sendMsgFn">
+                <div v-if="countdown > 0">{{ countdown }}s</div>
+                <div
+                    v-else
+                    class="icon"
+                    :style="`background-image: url('/images/platform/${platform}/${
+                        loginInfo.token ? 'logo-default' : 'logo'
+                    }.png');`"
+                ></div>
             </div>
         </div>
     </div>
@@ -88,7 +93,7 @@ export default defineComponent({
         countdown: {
             type: Number,
             default: 3,
-        }
+        },
     },
     setup(props, { emit }) {
         const store = useStore();
@@ -104,6 +109,7 @@ export default defineComponent({
             disabled: false,
             listEl: ref(null),
             timeout: null,
+            platform: import.meta.env.MODE,
         });
         const goToLogin = () => {
             router.push({
@@ -113,20 +119,20 @@ export default defineComponent({
                 },
             });
         };
-        
+
         const sendMsgFn = () => {
             if (!loginInfo.value.token) {
                 Dialog.confirm({
                     title: '温馨提示',
                     message: '您确定去登录么？',
                 })
-                .then(() => {
-                    goToLogin();
-                })
-                .catch(() => {});
+                    .then(() => {
+                        goToLogin();
+                    })
+                    .catch(() => {});
                 return;
             }
-            if(props.countdown > 0) {
+            if (props.countdown > 0) {
                 Toast('发言过于频繁');
                 return;
             }
@@ -218,7 +224,6 @@ export default defineComponent({
             margin-right: 4px;
             display: inline-block;
             vertical-align: middle;
-            background-image: url('../../assets/images/platform/logo.png');
             img {
                 width: 100%;
                 display: block;
@@ -288,12 +293,6 @@ export default defineComponent({
                 border-radius: 50%;
                 @include flexCenter();
             }
-        }
-        .no-send-btn .icon {
-            background-image: url('../../assets/images/platform/logo-default.png');
-        }
-        .can-send-btn .icon {
-            background-image: url('../../assets/images/platform/logo.png');
         }
     }
 }

@@ -2,7 +2,7 @@
     <div class="football-item">
         <div class="football-item-top flex">
             <div>{{ changeMatchTimeFn(item.matchStartTime) }}</div>
-            <img src="../../assets/images/public/football.png" alt="" />
+            <img src="/images/common/football.png" alt="" />
             <div class="match-name">
                 {{
                     item.league.leagueNameCn
@@ -13,7 +13,7 @@
         </div>
         <div class="football-item-middle flex">
             <div>
-                <div class="team-logo">
+                <div class="team-logo" :style="`background-image: url('/images/platform/${platform}/logo.png');`">
                     <img
                         v-if="item.home_team.logo"
                         :src="item.home_team.logo"
@@ -27,7 +27,7 @@
                 <div>{{ item.awayScore || 0 }}</div>
             </div>
             <div>
-                <div class="team-logo">
+                <div class="team-logo" :style="`background-image: url('/images/platform/${platform}/logo.png');`">
                     <img
                         v-if="item.away_team.logo"
                         :src="item.away_team.logo"
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, reactive, toRefs } from 'vue';
 import moment from 'moment';
 
 export default defineComponent({
@@ -66,6 +66,9 @@ export default defineComponent({
         },
     },
     setup(props) {
+        const data = reactive({
+            platform: import.meta.env.MODE
+        })
         const changeMatchTimeFn = (time) => {
             const newTime = moment(time * 1000).format('HH:MM');
             return newTime || '';
@@ -73,6 +76,7 @@ export default defineComponent({
 
         return {
             changeMatchTimeFn,
+            ...toRefs(data)
         };
     },
 });
@@ -111,7 +115,6 @@ export default defineComponent({
                 height: 66px;
                 @include bg();
                 overflow: hidden;
-                background-image: url('../../assets/images/platform/logo.png');
                 img {
                     width: 100%;
                     height: 100%;

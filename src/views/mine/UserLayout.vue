@@ -3,13 +3,13 @@
         <div class="user-bg">
             <div class="user-bg-back" @click="goBackFn">
                 <img
-                    src="../../assets/images/public/left-arrow.png"
+                    src="/images/common/left-arrow.png"
                     alt="back"
                 />
             </div>
             <div class="user-bg-form">
                 <img
-                    src="../../assets/images/platform/login-logo.png"
+                    :src="`/images/platform/${platform}/login-logo.png`"
                     alt="logo"
                     class="logo"
                 />
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, reactive, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import Layout from '../../components/Layout.vue';
 
@@ -30,11 +30,15 @@ export default defineComponent({
     },
     setup() {
         const router = useRouter();
+        const data = reactive({
+            platform: import.meta.env.MODE
+        })
         const goBackFn = () => {
             router.go(-1);
         };
         return {
             goBackFn,
+            ...toRefs(data)
         };
     },
 });
@@ -48,7 +52,7 @@ export default defineComponent({
     padding-top: 120px;
     position: relative;
     box-sizing: border-box;
-    background-image: url('../../assets/images/login/bg.png');
+    background-image: url('/images/login/bg.png');
     &-back {
         width: 80px;
         height: 100px;
@@ -94,10 +98,10 @@ export default defineComponent({
                     @include bg();
                     margin-right: 14px;
                     &.phone {
-                        background-image: url('../../assets/images/login/phone.png');
+                        background-image: url('/images/login/phone.png');
                     }
                     &.password {
-                        background-image: url('../../assets/images/login/pwd.png');
+                        background-image: url('/images/login/pwd.png');
                     }
                 }
                 input {

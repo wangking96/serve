@@ -7,12 +7,12 @@
             </div>
             <div class="subscribe-list" v-else>
                 <div class="subscribe-item" v-for="item in list" :key="item.id" @click="goToLiveRommFn(item)">
-                    <div class="anchor-avatar">
+                    <div class="anchor-avatar" :style="`background-image: url('/images/platform/${platform}/logo-default.png');`">
                         <img class="avatar" :src="item.avatar_thumb" alt="" />
                         <img
                             class="living"
                             v-if="item.islive == 1"
-                            src="../../assets/images/public/living.webp"
+                            src="/images/common/living.webp"
                             alt=""
                         />
                     </div>
@@ -51,6 +51,7 @@ export default defineComponent({
             list: [],
             requestLoading: false,
             timeout: null,
+            platform: import.meta.env.MODE
         });
         const getListDataFn = async () => {
             data.requestLoading = true;
@@ -132,7 +133,6 @@ export default defineComponent({
             @include bg();
             border-radius: 50%;
             position: relative;
-            background-image: url('../../assets/images/platform/logo-default.png');
             .avatar {
                 width: 100%;
                 height: 100%;

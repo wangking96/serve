@@ -32,7 +32,7 @@
             <div class="mine-banner">
                 <a href="" target="_blank">
                     <img
-                        src="../../assets/images/mine/banner.png"
+                        src="/images/mine/banner.png"
                         alt="banner"
                     />
                 </a>
@@ -71,10 +71,6 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue';
 import Layout from '@/components/Layout.vue';
-import subs from '../../assets/images/mine/user.png';
-import online from '../../assets/images/mine/online.png';
-import pwd from '../../assets/images/mine/pwd.png';
-import opinion from '../../assets/images/mine/opinion.png';
 import api from '../../api/api';
 import Request from '../../common/request';
 export default defineComponent({
@@ -86,10 +82,10 @@ export default defineComponent({
         const router = useRouter();
         const data = reactive({
             settings: [
-                { id: 1, title: '订阅主播', icon: subs, path: '/subscribe' },
-                { id: 2, title: '在线客服', icon: online },
-                { id: 3, title: '修改密码', icon: pwd, path: '/changePasswprd' },
-                { id: 4, title: '意见反馈', icon: opinion },
+                { id: 1, title: '订阅主播', icon: '/images/mine/user.png', path: '/subscribe' },
+                { id: 2, title: '在线客服', icon: '/images/mine/online.png' },
+                { id: 3, title: '修改密码', icon: '/images/mine/pwd.png', path: '/changePasswprd' },
+                { id: 4, title: '意见反馈', icon: '/images/mine/opinion.png' },
             ],
         });
         const userInfo = computed(() => store.state.userInfo);
@@ -168,7 +164,7 @@ export default defineComponent({
     width: 100%;
     height: 362px;
     @include bg();
-    background-image: url('../../assets/images/mine/mine-head-bg.png');
+    background-image: url('/images/mine/mine-head-bg.png');
     &-head {
         height: 300px;
         @include flexAlignItemsCenter();
@@ -180,7 +176,7 @@ export default defineComponent({
             margin-right: 40px;
             overflow: hidden;
             border-radius: 50%;
-            background-image: url('../../assets/images/platform/logo-default.png');
+            background-image: url('/images/platform/fengxin/logo-default.png');
             img {
                 width: 100%;
                 display: block;
@@ -237,11 +233,11 @@ export default defineComponent({
                 width: 30px;
                 height: 30px;
                 @include bg();
-                background-image: url('../../assets/images/mine/arrow-right.png');
+                background-image: url('/images/mine/arrow-right.png');
             }
         }
         .signout .mine-settings-item-left .icon {
-            background-image: url('../../assets/images/mine/pwd.png');
+            background-image: url('/images/mine/pwd.png');
         }
     }
 }

@@ -4,10 +4,10 @@ import {
     TabbarItem,
     Swipe,
     SwipeItem,
-    Lazyload,
     PullRefresh,
     List,  
     Loading,
+    Calendar,
     Overlay
 } from 'vant';
 
@@ -21,7 +21,7 @@ const coms = [
     PullRefresh,
     List,
     Overlay,
-    Lazyload
+    Calendar,
 ]
 
 export default coms

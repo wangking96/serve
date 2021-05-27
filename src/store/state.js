@@ -4,6 +4,6 @@ const state = {
     userInfo: {},
     loginInfo: {},
     liveInfo: {},
-    matchInfo: {}
+    matchInfo: {},
 }
 export default state;

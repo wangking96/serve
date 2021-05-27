@@ -1,60 +1,98 @@
 <template>
     <div class="tabbar">
-        <div 
-            class="tabbar-item" 
+        <div
+            class="tabbar-item"
             v-for="tab in tabbar"
             :key="tab.id"
-            :class="{'active': curPath === tab.path}"
+            :class="{ active: curPath === tab.path }"
             @click="changeRouteFn(tab)"
-        >   
-            <img :src="curPath === tab.path ?  tab.selectIcon : tab.icon" alt="">
-            <div>{{ tab.title }}</div>
+        >
+            <a 
+                :href="appSource === 'ios' ? config.ipa_url : config.apk_url"
+                :target="appSource === 'ios' ? '_blank' : ''" 
+                v-if="tab.id === 3"
+            >
+                <img
+                    :src="curPath === tab.path ? tab.selectIcon : tab.icon"
+                    alt=""
+                />
+                <div>{{ tab.title }}</div>
+            </a>
+            <template v-else>
+                <img
+                    :src="curPath === tab.path ? tab.selectIcon : tab.icon"
+                    alt=""
+                />
+                <div>{{ tab.title }}</div>
+            </template>
         </div>
     </div>
 </template>
 
 <script>
-import { defineComponent, reactive, toRefs, watch } from 'vue';
+import { computed, defineComponent, reactive, toRefs, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import home  from '../assets/images/tabbar/home.png';
-import homeSelect  from '../assets/images/tabbar/home-select.png';
-import match from '../assets/images/tabbar/match.png';
-import matchSelect from '../assets/images/tabbar/match-select.png';
-import app from '../assets/images/platform/logo.png';
-import mine from '../assets/images/tabbar/mine.png';
-import mineSelect from '../assets/images/tabbar/mine-select.png';
+import { useStore } from 'vuex';
+import { appSource } from '../common/tools'
+
+const plat = import.meta.env.MODE;
 const tabbar = [
-    { id: 1, path: '/', title: '首页', icon: home, selectIcon: homeSelect },
-    { id: 2, path: '/match', title: '赛事', icon: match, selectIcon: matchSelect },
-    { id: 3, path: '', title: 'APP', icon: app, selectIcon: app },
-    { id: 4, path: '/mine', title: '我的', icon: mine, selectIcon: mineSelect },
-]
+    {
+        id: 1,
+        path: '/',
+        title: '首页',
+        icon: '/images/tabbar/home.png',
+        selectIcon: '/images/tabbar/home-select.png',
+    }, {
+        id: 2,
+        path: '/match',
+        title: '赛事',
+        icon: '/images/tabbar/match.png',
+        selectIcon: '/images/tabbar/match-select.png',
+    }, {
+        id: 3,
+        path: '',
+        title: 'APP',
+        icon: `/images/platform/${plat}/logo.png`,
+        selectIcon: `/images/platform/${plat}/logo.png`,
+    }, {
+        id: 4,
+        path: '/mine',
+        title: '我的',
+        icon: '/images/tabbar/mine.png',
+        selectIcon: '/images/tabbar/mine-select.png',
+    },
+];
 export default defineComponent({
     setup() {
+        const store = useStore();
         const route = useRoute();
         const router = useRouter();
+        const config = computed(() => store.state.config);
         const data = reactive({
             tabbar,
-            curPath: null
-        })
+            curPath: null,
+            appSource: appSource()
+        });
 
         const changeRouteFn = (tab) => {
-            router.push(tab.path)
-        }
+            router.push(tab.path);
+        };
 
         watch(
-            ()=> route.path,
-            path => {
-                data.curPath = path
+            () => route.path,
+            (path) => {
+                data.curPath = path;
             },
             {
-                immediate: true
+                immediate: true,
             }
-        )
+        );
 
         return {
+            config,
             ...toRefs(data),
-            changeRouteFn
+            changeRouteFn,
         };
     },
 });
@@ -79,14 +117,18 @@ export default defineComponent({
             display: block;
             object-fit: cover;
             margin: 8px auto;
-            transition: all .3s;
+            transition: all 0.3s;
         }
         div {
             @include font($size: 24px, $center: center, $color: #646566);
         }
+        a {
+            display: block;
+            text-decoration: none;
+        }
         &.active {
             img {
-                animation: scale .3s;
+                animation: scale 0.3s;
             }
             div {
                 color: #ff881a;
@@ -95,13 +137,13 @@ export default defineComponent({
     }
 }
 @keyframes scale {
-    0%{
-        transform: scale(.8);
+    0% {
+        transform: scale(0.8);
     }
-    80%{
+    80% {
         transform: scale(1.2);
     }
-    100%{
+    100% {
         transform: scale(1);
     }
 }

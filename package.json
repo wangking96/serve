@@ -9,8 +9,6 @@
   "dependencies": {
     "axios": "^0.21.1",
     "blueimp-md5": "^2.18.0",
-    "g": "^2.0.1",
-    "live-server": "^1.2.1",
     "moment": "^2.29.1",
     "postcss-px-to-viewport": "^1.1.1",
     "reset-css": "^5.0.1",
