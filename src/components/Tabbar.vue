@@ -104,8 +104,6 @@ export default defineComponent({
     height: 100px;
     background-color: #fff;
     box-sizing: content-box;
-    padding-bottom: constant(safe-area-inset-bottom);
-    padding-bottom: env(safe-area-inset-bottom);
     @include flexAlignItemsCenter();
     // @include position($position: fixed, $left: 0, $bottom: 0, $zIndex: 9);
     &-item {

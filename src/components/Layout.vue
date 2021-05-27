@@ -70,7 +70,10 @@ export default defineComponent({
 .layout {
     width: 100vw;
     overflow: hidden;
+    box-sizing: border-box;
     @include flexDirectionColumn();
+    padding-bottom: constant(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom);
     &-main {
         flex: 1;
         width: 100%;

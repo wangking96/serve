@@ -30,13 +30,15 @@
         </div>
 
         <div class="live-info-anchor-recommend">
-            <AnchorRecommend :anchor="anchor" />
+            <Loading v-if="loading" />
+            <AnchorRecommend :anchor="anchor" v-else />
         </div>
     </div>
 </template>
 
 <script>
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue';
+import Loading from '../../components/Loading.vue';
 import AnchorRecommend from '../../components/AnchorRecommend.vue';
 import api from '../../api/api';
 import Request from '../../common/request';
@@ -44,6 +46,7 @@ import { useStore } from 'vuex';
 import { Toast } from 'vant';
 export default defineComponent({
     components: {
+        Loading,
         AnchorRecommend,
     },
     props: {
@@ -59,9 +62,11 @@ export default defineComponent({
         const data = reactive({
             anchor: [],
             httpStatus: false,
+            loading: false
         });
-        const getRecommendedStream = () => {
-            Request({
+        const getRecommendedStream = async () => {
+            data.loading = true;
+            const res = await Request({
                 params: {
                     limit: '4', //每页记录数
                     p: '1', //页数
@@ -71,11 +76,13 @@ export default defineComponent({
                     token: userInfo.value.token || '',
                     service: api.liveAnchorRecommend,
                 },
-            }).then((res) => {
-                if (res.code === 0) {
-                    data.anchor = res.info;
-                }
             });
+
+            if (res.code === 0) {
+                data.anchor = res.info;
+            }
+
+            data.loading = false;
         };
         const subscribeAnchor = async () => {
             if (data.httpStatus) return;
