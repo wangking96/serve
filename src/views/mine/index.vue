@@ -30,12 +30,12 @@
                 </div>
             </div>
             <div class="mine-banner">
-                <a href="" target="_blank">
+                <AppDownload>
                     <img
                         src="/images/mine/banner.png"
                         alt="banner"
                     />
-                </a>
+                </AppDownload>
             </div>
             <div class="mine-settings">
                 <div
@@ -71,11 +71,13 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { computed, defineComponent, onMounted, reactive, toRefs } from 'vue';
 import Layout from '@/components/Layout.vue';
+import AppDownload from '../../components/AppDownload.vue';
 import api from '../../api/api';
 import Request from '../../common/request';
 export default defineComponent({
     components: {
         Layout,
+        AppDownload
     },
     setup() {
         const store = useStore();

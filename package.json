@@ -18,7 +18,10 @@
     "vue": "^3.0.5",
     "vue-router": "4",
     "vuex": "^4.0.0",
-    "vuex-persistedstate": "^4.0.0-beta.3"
+    "vuex-persistedstate": "^4.0.0-beta.3",
+    "xgplayer": "^2.20.12",
+    "xgplayer-flv.js": "^2.3.0",
+    "xgplayer-hls.js": "^2.4.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.2.2",

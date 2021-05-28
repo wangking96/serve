@@ -129,7 +129,7 @@ export default defineComponent({
                 $position: absolute,
                 $top: 0,
                 $left: 0,
-                $zIndex: 99
+                $zIndex: 299
             );
             &-main {
                 width: 100%;

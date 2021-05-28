@@ -79,6 +79,8 @@ import { useStore } from 'vuex';
 import ws from '../../common/ws';
 import { Toast, Dialog } from 'vant';
 import { useRouter } from 'vue-router';
+import api from '../../api/api';
+import Request from '../../common/request';
 
 export default defineComponent({
     props: {
@@ -110,6 +112,7 @@ export default defineComponent({
             listEl: ref(null),
             timeout: null,
             platform: import.meta.env.MODE,
+            sensitiveWords: [],                 // 敏感词          
         });
         const goToLogin = () => {
             router.push({
@@ -121,15 +124,16 @@ export default defineComponent({
         };
 
         const sendMsgFn = () => {
+            let pass = false;
             if (!loginInfo.value.token) {
                 Dialog.confirm({
                     title: '温馨提示',
-                    message: '您确定去登录么？',
+                    message: '您还没有登录，是否去登录？',
                 })
-                    .then(() => {
-                        goToLogin();
-                    })
-                    .catch(() => {});
+                .then(() => {
+                    goToLogin();
+                })
+                .catch(() => {});
                 return;
             }
             if (props.countdown > 0) {
@@ -140,6 +144,19 @@ export default defineComponent({
                 Toast('发送内容不能为空');
                 return;
             }
+            data.sensitiveWords.find((item) => {
+                if (data.sendMsg.indexOf(item) > -1) {
+                    Toast({
+                        icon: 'clear',
+                        position: 'bottom',
+                        message: '禁止发送敏感词“' + item + '”',
+                    });
+                    pass = true;
+                    data.sendMsg = '';
+                    return;
+                }
+            });
+            if(pass) return;
             let sendData = {
                 type: 'sendMsg',
                 msg: {
@@ -163,7 +180,19 @@ export default defineComponent({
             }
         };
 
+        const getSensitiveWords = async () => {
+            const res = await Request({
+                params: {
+                    service: api.sensitiveWords
+                }
+            })
+            if(res.code === 0) {
+                data.sensitiveWords = res.info;
+            }
+        }
+
         onMounted(() => {
+            getSensitiveWords();
             data.timeout = setTimeout(() => {
                 scrollFn();
             }, 100);
@@ -213,7 +242,7 @@ export default defineComponent({
         overflow-x: hidden;
         overflow-y: scroll;
         box-sizing: border-box;
-        padding: 30px 20px 0 20px;
+        padding: 30px 20px 10px 20px;
     }
     &-item {
         margin-top: 16px;

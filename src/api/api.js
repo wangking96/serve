@@ -11,6 +11,7 @@ const api = {
     liveAnchorRecommend: 'Home.GetRecommendedStream',
     subscribe: 'User.GetSubscribe',
     subscribeAnchor: 'Home.SubscribeAnchor',
+    sensitiveWords: 'Home.GetFilterField',                  // 获取敏感词
 
     // 用户
     userInfo: 'User.GetBaseInfo',

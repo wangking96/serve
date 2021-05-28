@@ -3,7 +3,10 @@
         <div class="live-broadcast">
             <div class="live-broadcast-play">
                 <PlayerArea :title="liveInfo.title">
-                    <Player />
+                    <Player
+                        :hlsUrl="liveData.pull_h5"
+                        :flvUrl="liveData.pull"
+                    />
                 </PlayerArea>
             </div>
             <div class="live-broadcast-tab">
@@ -40,11 +43,11 @@ import {
     defineComponent,
     reactive,
     toRefs,
-    watchEffect,
     computed,
     onMounted,
     onBeforeUnmount,
     ref,
+    watch,
 } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -69,7 +72,7 @@ export default defineComponent({
         LiveInfo,
         ChatRoom,
         Player,
-        PlayerArea
+        PlayerArea,
     },
     setup() {
         const route = useRoute();
@@ -94,7 +97,8 @@ export default defineComponent({
             liveData: {},
             ws: null,
             chatRecords: [],
-            chatRoomOpening: false,
+            chatRoomClosed: false,
+            living: false,
             visible: false,
             countdown: 0,
             countdownTimer: null,
@@ -109,11 +113,12 @@ export default defineComponent({
                 },
             }).then((res) => {
                 if (res.code === 0) {
-                    data.liveData = res.info[0];
-                    data.contract = res.info[0].contract.filter(
+                    const resData = res.info[0];
+                    data.liveData = resData;
+                    data.contract = resData.contract.filter(
                         (item) => item.status != 0
                     );
-                    bool && enterLiveRoomFn(res.info[0]);
+                    bool && enterLiveRoomFn(resData);
                 }
             });
         };
@@ -160,6 +165,13 @@ export default defineComponent({
                         });
                 },
             },
+            1004: {},
+            2000: {},
+            2001: {},
+            2002: {},
+            2003: {},
+            2004: {},
+            2005: {},
         };
         // 进入聊天室
         const enterLiveRoomFn = async (params) => {
@@ -173,17 +185,15 @@ export default defineComponent({
                     service: api.enterLiveRoom,
                 },
             });
-
             if (res.code === 0 && res.info && res.info.length > 0) {
                 const resData = res.info[0];
                 if (resData.is_chat_off === 1) {
                     data.chatRecords = [];
-                    data.connectioning = false;
-                    data.chatRoomOpening = false;
+                    data.chatRoomClosed = false;
                     data.placeholderText = '聊天室已关闭';
-                    // ws.close();
+                    ws.close();
                 } else {
-                    data.chatRoomOpening = true;
+                    data.chatRoomClosed = true;
                     createChatRoomFn();
                 }
             } else {
@@ -214,7 +224,7 @@ export default defineComponent({
                     data.chatRecords = resData.data.logs;
                 }
                 if (resData.data.type === 'come') {
-                    data.connectioning = resData.code === 0 ? true : false;
+                    data.chatRoomClosed = resData.code === 0 ? true : false;
                     data.chatRecords.push({
                         user_nicename: resData.data.user.user_nicename,
                         type: 'come',
@@ -234,11 +244,15 @@ export default defineComponent({
             });
         };
 
-        watchEffect(() => {
-            if (route.query.id) {
-                getLiveInfoFn(true);
+        watch(
+            () => route.query.id,
+            (id) => {
+                id && getLiveInfoFn(true);
+            },
+            {
+                immediate: true,
             }
-        });
+        );
 
         onMounted(() => {
             data.curTab = data.tab[1];

@@ -10,12 +10,7 @@
                 <div class="btn go-back" v-if="showBack" @click="goToHomeFn">
                     返回首页
                 </div>
-                <a
-                    class="btn download"
-                    :href="appSource === 'ios' ? config.ipa_url : config.apk_url"
-                    :target="appSource === 'ios' ? '_blank' : ''"
-                    >下载APP</a
-                >
+                <AppDownload class="btn download">下载APP</AppDownload>
             </div>
         </template>
         <template v-else>
@@ -28,11 +23,13 @@
 </template>
 
 <script>
-import { computed, defineComponent, reactive, toRefs } from 'vue';
+import { defineComponent, reactive, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
-import { appSource } from '../common/tools';
+import AppDownload from '../components/AppDownload.vue';
 export default defineComponent({
+    components: {
+        AppDownload
+    },
     props: {
         showBack: {
             type: Boolean,
@@ -48,12 +45,9 @@ export default defineComponent({
         },
     },
     setup() {
-        const store = useStore();
         const router = useRouter();
-        const config = computed(() => store.state.config);
 
         const data = reactive({
-            appSource: appSource(),
             platform: import.meta.env.MODE,
         });
         const backFn = () => {
@@ -66,7 +60,6 @@ export default defineComponent({
         return {
             backFn,
             goToHomeFn,
-            config,
             ...toRefs(data),
         };
     },

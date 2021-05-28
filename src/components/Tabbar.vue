@@ -7,17 +7,13 @@
             :class="{ active: curPath === tab.path }"
             @click="changeRouteFn(tab)"
         >
-            <a 
-                :href="appSource === 'ios' ? config.ipa_url : config.apk_url"
-                :target="appSource === 'ios' ? '_blank' : ''" 
-                v-if="tab.id === 3"
-            >
+            <AppDownload v-if="tab.id === 3">
                 <img
                     :src="curPath === tab.path ? tab.selectIcon : tab.icon"
                     alt=""
                 />
                 <div>{{ tab.title }}</div>
-            </a>
+            </AppDownload>
             <template v-else>
                 <img
                     :src="curPath === tab.path ? tab.selectIcon : tab.icon"
@@ -30,10 +26,9 @@
 </template>
 
 <script>
-import { computed, defineComponent, reactive, toRefs, watch } from 'vue';
+import { defineComponent, reactive, toRefs, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
-import { appSource } from '../common/tools'
+import AppDownload from '../components/AppDownload.vue';
 
 const plat = import.meta.env.MODE;
 const tabbar = [
@@ -64,15 +59,15 @@ const tabbar = [
     },
 ];
 export default defineComponent({
+    components: {
+        AppDownload
+    },
     setup() {
-        const store = useStore();
         const route = useRoute();
         const router = useRouter();
-        const config = computed(() => store.state.config);
         const data = reactive({
             tabbar,
             curPath: null,
-            appSource: appSource()
         });
 
         const changeRouteFn = (tab) => {
@@ -90,7 +85,6 @@ export default defineComponent({
         );
 
         return {
-            config,
             ...toRefs(data),
             changeRouteFn,
         };
